@@ -1,16 +1,21 @@
+<!-- README.md file version: v0.0.4 -->
+
 <a name="readme-top"></a>
 
+<!-- Volgende keer maak ik Contribution section aan voor display -->
+<!-- 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
-
 <br />
+-->
+
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://gitlab.fdmci.hva.nl/project-se-dt/2324/team8/QuizTower.IDP">
+    <img src="https://avatars.githubusercontent.com/u/67868775?s=48&v=4" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Tower of Quizzes</h3>
