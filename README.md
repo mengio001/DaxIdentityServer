@@ -45,7 +45,7 @@
 
 ## About The Project
 
-# Duende IdentityServer
+### Duende IdentityServer
 The most flexible and standards-compliant OpenID Connect and OAuth 2.x framework for ASP.NET Core
 
 [Web site](https://duendesoftware.com/products/identityserver) and [documentation](https://docs.duendesoftware.com)
@@ -53,7 +53,7 @@ The most flexible and standards-compliant OpenID Connect and OAuth 2.x framework
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
-* [![Duende.IdentityServer][Duende.IdentityServer.com]][Duende.IdentityServer-url]
+* [![Duende.IdentityServer][Duende.IdentityServer.com]][Duende.IdentityServer-url] Duende.IdentityServer
 * [![Angular][Angular.io]][Angular-url]
 * [![Bootstrap][Bootstrap.com]][Bootstrap-url]
 * [![JQuery][JQuery.com]][JQuery-url]
@@ -96,7 +96,7 @@ dotnet new install Duende.IdentityServer.Templates
 
 ## License
 
-Standard License Pricing. See (detailed feature matrix)[https://duendesoftware.com/products/features] for more information.
+Standard License Pricing. See [detailed feature matrix](https://duendesoftware.com/products/features) for more information.
 
 P.S. Free for development, testing and personal projects—only pay for production.
 
