@@ -21,13 +21,16 @@ public static class Config
     public static IEnumerable<ApiResource> ApiResources =>
      new ApiResource[]
          {
-             new ApiResource("imagegalleryapi",
-                 "Image Gallery API",
+             new ApiResource("usermanagementapi",
+                 "Auth UserManagement API",
                  new [] { "role", "country" })
              {
-                 Scopes = { "imagegalleryapi.fullaccess",
-                     "imagegalleryapi.read",
-                     "imagegalleryapi.write"},
+                 Scopes = { 
+                     "usermanagementapi.fullaccess",
+                     "usermanagementapi.read",
+                     "usermanagementapi.write"
+
+                 },
                 ApiSecrets = { new Secret("apisecret".Sha256()) }
              }
          };
@@ -35,17 +38,18 @@ public static class Config
     public static IEnumerable<ApiScope> ApiScopes =>
         new ApiScope[]
             {
-                new ApiScope("imagegalleryapi.fullaccess"),
-                new ApiScope("imagegalleryapi.read"),
-                new ApiScope("imagegalleryapi.write")};
+                new ApiScope("usermanagementapi.fullaccess"),
+                new ApiScope("usermanagementapi.read"),
+                new ApiScope("usermanagementapi.write")
+            };
 
     public static IEnumerable<Client> Clients =>
         new Client[]
             {
                 new Client()
                 {
-                    ClientName = "Image Gallery",
-                    ClientId = "imagegalleryclient",
+                    ClientName = "AuthUserManagement",
+                    ClientId = "usermanagementclient",
                     AllowedGrantTypes = GrantTypes.Code,
                     AccessTokenType = AccessTokenType.Reference,
                     AllowOfflineAccess = true,
@@ -66,16 +70,15 @@ public static class Config
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         "roles",
-                        //"imagegalleryapi.fullaccess",
-                        "imagegalleryapi.read",
-                        "imagegalleryapi.write",
+                        "usermanagementapi.read",
+                        "usermanagementapi.write",
                         "country"
                     },
                     ClientSecrets =
                     {
                         new Secret("secret".Sha256())
                     }, 
-                    // RequireConsent = true
+                    RequireConsent = true
                 }
             };
 }
