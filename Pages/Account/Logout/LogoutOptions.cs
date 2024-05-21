@@ -2,7 +2,7 @@
 // See LICENSE in the project root for license information.
 
 
-namespace QuizTower.IDP.Pages.Logout;
+namespace QuizTower.IDP.Pages.Account.Logout;
 
 public static class LogoutOptions
 {

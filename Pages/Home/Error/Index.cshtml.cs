@@ -5,7 +5,7 @@ using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace QuizTower.IDP.Pages.Error;
+namespace QuizTower.IDP.Pages.Home.Error;
 
 [AllowAnonymous]
 [SecurityHeaders]

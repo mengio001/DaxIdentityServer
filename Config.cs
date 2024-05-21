@@ -53,10 +53,12 @@ public static class Config
                     AllowedGrantTypes = GrantTypes.Code,
                     AccessTokenType = AccessTokenType.Reference,
                     AllowOfflineAccess = true,
+                    AbsoluteRefreshTokenLifetime = 15,
+                    SlidingRefreshTokenLifetime = 5,
                     UpdateAccessTokenClaimsOnRefresh = true,
-                    AccessTokenLifetime = 120,
-                    // AuthorizationCodeLifetime = ...
                     // IdentityTokenLifetime = ...
+                    // AuthorizationCodeLifetime = ... // During code-flow
+                    AccessTokenLifetime = 120, // out-of-sync 120sec (server uses always minimum 5minutes.)
                     RedirectUris =
                     {
                         "https://localhost:7184/signin-oidc"
@@ -78,7 +80,7 @@ public static class Config
                     {
                         new Secret("secret".Sha256())
                     }, 
-                    RequireConsent = true
+                    // RequireConsent = true // Consent screen is handy for development otherwise, just disable it.
                 }
             };
 }

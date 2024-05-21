@@ -19,8 +19,15 @@ try
     var app = builder
         .ConfigureServices()
         .ConfigurePipeline();
-    
+
+    // seed the configuration database
+    SeedData.EnsureSeedData(app);
+
     app.Run();
+}
+catch (HostAbortedException)
+{
+    // eat exception, cfr https://github.com/dotnet/efcore/issues/29809
 }
 catch (Exception ex)
 {

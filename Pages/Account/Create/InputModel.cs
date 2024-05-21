@@ -3,7 +3,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace QuizTower.IDP.Pages.Create;
+namespace QuizTower.IDP.Pages.Account.Create;
 
 public class InputModel
 {

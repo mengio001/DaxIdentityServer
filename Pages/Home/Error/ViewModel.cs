@@ -3,7 +3,7 @@
 
 using Duende.IdentityServer.Models;
 
-namespace QuizTower.IDP.Pages.Error;
+namespace QuizTower.IDP.Pages.Home.Error;
 
 public class ViewModel
 {
