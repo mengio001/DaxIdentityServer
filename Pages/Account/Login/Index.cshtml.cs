@@ -193,7 +193,7 @@ public class Index : PageModel
         var schemes = await _schemeProvider.GetAllSchemesAsync();
 
         var providers = schemes
-            .Where(x => x.DisplayName != null)
+            .Where(x => x.DisplayName != null && x.DisplayName != "Windows")
             .Select(x => new ViewModel.ExternalProvider
             (
                 authenticationScheme: x.Name,

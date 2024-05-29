@@ -229,7 +229,7 @@ namespace QuizTower.IDP.Services
                 throw new ArgumentNullException(nameof(securityCode));
             }
 
-            // find an user with this security code as an active security code.  
+            // find a user with this security code as an active security code.  
             var user = await _context.Users.FirstOrDefaultAsync(u =>
                 u.SecurityCode == securityCode &&
                 u.SecurityCodeExpirationDate >= DateTime.UtcNow);
