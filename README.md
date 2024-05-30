@@ -1,4 +1,4 @@
-<!-- README.md file version: v0.0.4 -->
+<!-- README.md file version: v0.1.1 -->
 
 <a name="readme-top"></a>
 
@@ -67,43 +67,39 @@ The most flexible and standards-compliant OpenID Connect and OAuth 2.x framework
 
 ## Getting Started
 
-The quickstarts provide step by step instructions for various common Duende IdentityServer scenarios. They start with the absolute basics and become more complex - it is recommended you do them in order.
-* adding Duende IdentityServer to an ASP.NET Core application
-* configuring Duende IdentityServer
-* issuing tokens for various clients
-* securing web applications and APIs
-* adding support for EntityFramework based configuration
-* adding support for ASP.NET Identity
-
-Every quickstart has a reference solution - you can find the code in the [samples](https://github.com/DuendeSoftware/Samples/tree/main/IdentityServer/v7/Quickstarts) folder.
-
 ### Prerequisites
-* Visual Studio 2022 with the ASP.NET and web development workload.
+Ensure you have the following installed:
 * .NET 8.0 SDK
-
-### Preparation
-
-_The first thing you should do is install our templates:_
-
-```sh
-dotnet new install Duende.IdentityServer.Templates
-```
+* Git
 
 ### Installation
 
-* Install Git
-* Clone this repo
-* [Install](https://www.microsoft.com/net/download/core#/current) the [required](https://github.com/DuendeSoftware/IdentityServer/blob/main/global.json) .NET Core SDK
-* Run `build.ps1` or `build.sh` in the root of the cloned repo
+1. Clone the repository
+```sh
+git clone https://gitlab.fdmci.hva.nl/project-se-dt/2324/team8/QuizTower-IDP.git
+```
+
+2. Navigate to the project directory
+```sh
+cd QuizTower-IDP
+```
+
+3. Restore NuGet packages
+```sh
+dotnet restore
+```
+
+4. Build the project
+```sh
+dotnet build
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 ## License
 
-Standard License Pricing. See [detailed feature matrix](https://duendesoftware.com/products/features) for more information.
-
-P.S. Free for development, testing and personal projects—only pay for production.
+Distributed under the MIT License. See [detailed feature matrix](https://duendesoftware.com/products/features) for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -116,6 +112,13 @@ Project Link: [https://gitlab.fdmci.hva.nl/project-se-dt/2324/team8/QuizTower.ID
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
+## Acknowledgments
+* Duende Software
+* Angular
+* Bootstrap
+* JQuery
+
+* 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
