@@ -11,8 +11,7 @@ namespace QuizTower.IDP.DbContexts
 
         public DbSet<UserLogin> UserLogins { get; set; }
 
-        public IdentityDbContext(
-          DbContextOptions<IdentityDbContext> options)
+        public IdentityDbContext(DbContextOptions<IdentityDbContext> options)
         : base(options)
         {
         }
