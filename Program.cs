@@ -11,6 +11,12 @@ try
 {
     var builder = WebApplication.CreateBuilder(args);
 
+    // todo: if,else op basis van Environment variable als ik `script: "move appsettings.Production.json appsettings.json"` wil doen tijdens release CI/CD
+    builder.Configuration
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+        .AddEnvironmentVariables();
+
     builder.Host.UseSerilog((ctx, lc) => lc
         .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}")
         .Enrich.FromLogContext()
