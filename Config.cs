@@ -58,7 +58,7 @@ public static class Config
                     UpdateAccessTokenClaimsOnRefresh = true,
                     // IdentityTokenLifetime = ...
                     // AuthorizationCodeLifetime = ... // During code-flow
-                    AccessTokenLifetime = 120, // out-of-sync 120sec (server uses always minimum 5minutes.)
+                    AccessTokenLifetime = 3600, // out-of-sync 120sec (server uses always minimum 5minutes.) // todo: resolve refreshToken issue
                     RedirectUris =
                     {
                         "https://localhost:7184/signin-oidc"
