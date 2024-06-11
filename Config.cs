@@ -76,7 +76,7 @@ public static class Config
                     UpdateAccessTokenClaimsOnRefresh = true,
                     // IdentityTokenLifetime = ...
                     // AuthorizationCodeLifetime = ... // During code-flow
-                    AccessTokenLifetime = 120, // out-of-sync 120sec (server uses always minimum 5minutes.) // todo: resolve refreshToken issue
+                    AccessTokenLifetime = 120, // out-of-sync 120sec (server uses always minimum 5minutes.)
                     RedirectUris =
                     {
                         // Note: we need to add a valid URI, so this client is allowed to receive tokens on. That URI is the host address of our Client web application followed by signin-oidc. 
