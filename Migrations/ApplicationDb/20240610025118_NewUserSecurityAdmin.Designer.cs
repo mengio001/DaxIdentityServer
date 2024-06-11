@@ -9,11 +9,11 @@ using QuizTower.IDP.DbContexts;
 
 #nullable disable
 
-namespace QuizTower.IDP.Migrations
+namespace QuizTower.IDP.Migrations.ApplicationDb
 {
-    [DbContext(typeof(IdentityDbContext))]
-    [Migration("20240514234405_InitialUserDataMigration")]
-    partial class InitialUserDataMigration
+    [DbContext(typeof(ApplicationDbContext))]
+    [Migration("20240610025118_NewUserSecurityAdmin")]
+    partial class NewUserSecurityAdmin
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,14 +72,14 @@ namespace QuizTower.IDP.Migrations
                         .IsUnique()
                         .HasFilter("[UserName] IS NOT NULL");
 
-                    b.ToTable("Users");
+                    b.ToTable("User", "Identity");
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
                             Active = true,
-                            ConcurrencyStamp = "0550e820-1a2e-43e7-a57a-341c362b62f4",
+                            ConcurrencyStamp = "0834704c-508c-4281-87e5-b1e62dc8ca31",
                             Email = "david@someprovider.com",
                             Password = "AQAAAAIAAYagAAAAEAFfhxfb2YqaRx4WePWJMkIE/tmk/oY7csVwmRqu63+TjAVYgulpGORreroxJD1AdA==",
                             SecurityCodeExpirationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -90,12 +90,23 @@ namespace QuizTower.IDP.Migrations
                         {
                             Id = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
                             Active = true,
-                            ConcurrencyStamp = "a012ea79-a06c-4239-92f7-ef415b3f269e",
+                            ConcurrencyStamp = "be8fee15-d7bd-478d-b935-6a929cc10524",
                             Email = "emma@someprovider.com",
                             Password = "AQAAAAIAAYagAAAAEAFfhxfb2YqaRx4WePWJMkIE/tmk/oY7csVwmRqu63+TjAVYgulpGORreroxJD1AdA==",
                             SecurityCodeExpirationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Subject = "b7539694-97e7-4dfe-84da-b4256e1ff5c7",
                             UserName = "Emma"
+                        },
+                        new
+                        {
+                            Id = new Guid("a120fd96-1dea-4922-8403-289e5f2dbb6a"),
+                            Active = true,
+                            ConcurrencyStamp = "c0bae308-fa8a-4bf4-8cb3-1d4d6e021a0e",
+                            Email = "admin@admin.com",
+                            Password = "AQAAAAIAAYagAAAAEAFfhxfb2YqaRx4WePWJMkIE/tmk/oY7csVwmRqu63+TjAVYgulpGORreroxJD1AdA==",
+                            SecurityCodeExpirationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Subject = "B8C91EF2-7C41-4561-A323-A73B8F25F686",
+                            UserName = "Admin"
                         });
                 });
 
@@ -127,72 +138,128 @@ namespace QuizTower.IDP.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserClaims");
+                    b.ToTable("UserClaim", "Identity");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1862f183-617a-418e-a2ba-4da24dcbf13e"),
-                            ConcurrencyStamp = "8ae8e354-2913-456a-936e-58d4cbf0610b",
+                            Id = new Guid("62a48c70-ce2a-42c4-912a-c6a3af76c17f"),
+                            ConcurrencyStamp = "c098f3d5-a5e0-484b-99d3-cb09c580e746",
                             Type = "given_name",
                             UserId = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
                             Value = "David"
                         },
                         new
                         {
-                            Id = new Guid("c46af08d-15c3-470e-bd40-8bf18ff96fdf"),
-                            ConcurrencyStamp = "3e571e62-5172-4982-b2d5-47c135786098",
+                            Id = new Guid("70d7c9b2-7075-431c-b60a-26e0a877088f"),
+                            ConcurrencyStamp = "7a67c70e-f125-4929-b6ae-9756808174f3",
                             Type = "family_name",
                             UserId = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
                             Value = "Flagg"
                         },
                         new
                         {
-                            Id = new Guid("a7a0aa58-0dd6-448f-9980-939b44a3d09e"),
-                            ConcurrencyStamp = "b72098e6-0201-4694-b096-2b7f2d6a26c9",
+                            Id = new Guid("ea418934-1932-4365-b02d-0a9c35142121"),
+                            ConcurrencyStamp = "983ee73f-f6f3-4849-a2a4-f48bd7139187",
                             Type = "country",
                             UserId = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
                             Value = "nl"
                         },
                         new
                         {
-                            Id = new Guid("61fc2f22-6b31-437e-8dc3-fd33b73517cb"),
-                            ConcurrencyStamp = "62a93039-3f04-4d48-ba10-cfde70891aa0",
+                            Id = new Guid("38d82d94-cd22-458d-ab07-dd991e57992a"),
+                            ConcurrencyStamp = "e056937f-0ddc-4d7b-8b6e-dadbb983f7d7",
                             Type = "role",
                             UserId = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
                             Value = "FreeUser"
                         },
                         new
                         {
-                            Id = new Guid("a7902cd5-48d5-402e-9224-d26407e6a3a3"),
-                            ConcurrencyStamp = "8cbf2133-ac48-4340-bca9-b624e9bbfdad",
+                            Id = new Guid("500824a9-cfc3-44f4-95a6-00dda3119776"),
+                            ConcurrencyStamp = "b1f0b545-1cb2-462f-be4b-7de6d9c96769",
+                            Type = "role",
+                            UserId = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
+                            Value = "Player"
+                        },
+                        new
+                        {
+                            Id = new Guid("e3b7f13a-6c42-40bd-8271-04028c3c2391"),
+                            ConcurrencyStamp = "c214c0f7-b235-4e2f-8b0c-c940970498d3",
                             Type = "given_name",
                             UserId = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
                             Value = "Emma"
                         },
                         new
                         {
-                            Id = new Guid("9e5c58c5-a599-40b0-9971-5d38087b89c5"),
-                            ConcurrencyStamp = "96d6a353-d735-4836-a0b8-8eacc64da6a4",
+                            Id = new Guid("75c8aea7-3fcb-490d-9abc-a64d550744b9"),
+                            ConcurrencyStamp = "30d19694-3d63-4eac-81a1-f04e9288c83c",
                             Type = "family_name",
                             UserId = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
                             Value = "Flagg"
                         },
                         new
                         {
-                            Id = new Guid("b0d45bd7-2e56-4e8f-bc34-927ee73014a9"),
-                            ConcurrencyStamp = "a6a0b9fd-aafa-44a3-9c68-ab5f61e7a93a",
+                            Id = new Guid("bde0fecd-3a51-458f-9a41-d04e183fa789"),
+                            ConcurrencyStamp = "7359c90f-081f-49c7-8dab-cfd59adbaa58",
                             Type = "country",
                             UserId = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
                             Value = "be"
                         },
                         new
                         {
-                            Id = new Guid("f2b73e7f-2460-4442-afc5-e590c119a6ef"),
-                            ConcurrencyStamp = "1144e174-9e94-47c9-8472-321000e1bf12",
+                            Id = new Guid("1fa942cd-7b3d-46e2-a618-9999501e1430"),
+                            ConcurrencyStamp = "6996f153-944f-4b9d-9683-1800824f4422",
                             Type = "role",
                             UserId = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
                             Value = "PayingUser"
+                        },
+                        new
+                        {
+                            Id = new Guid("0f6386d9-f13a-4f00-9425-18db3529d845"),
+                            ConcurrencyStamp = "50c1dfb3-8b15-46cf-9aa4-48fdf28926c0",
+                            Type = "role",
+                            UserId = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
+                            Value = "QuizMaster"
+                        },
+                        new
+                        {
+                            Id = new Guid("e484ea34-47fe-43ef-927e-def80e78c604"),
+                            ConcurrencyStamp = "9de24964-7ce9-47f1-a6e2-f801c7ec1654",
+                            Type = "given_name",
+                            UserId = new Guid("a120fd96-1dea-4922-8403-289e5f2dbb6a"),
+                            Value = "Admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("a64dd79f-e5b0-4d90-b744-f948053bfba5"),
+                            ConcurrencyStamp = "309bfa08-5101-4a46-bce0-829c454c9b12",
+                            Type = "family_name",
+                            UserId = new Guid("a120fd96-1dea-4922-8403-289e5f2dbb6a"),
+                            Value = "Flagg"
+                        },
+                        new
+                        {
+                            Id = new Guid("70439a71-cf9a-45c0-9285-0d16f43c9d1e"),
+                            ConcurrencyStamp = "c9a1e7b8-6a13-4ff4-a38a-0eb2cee2f602",
+                            Type = "country",
+                            UserId = new Guid("a120fd96-1dea-4922-8403-289e5f2dbb6a"),
+                            Value = "nl"
+                        },
+                        new
+                        {
+                            Id = new Guid("c5ed8aa3-c2c2-4043-b0b2-8f3c56382843"),
+                            ConcurrencyStamp = "4a14e36f-9732-4e04-893c-39c71177bc46",
+                            Type = "role",
+                            UserId = new Guid("a120fd96-1dea-4922-8403-289e5f2dbb6a"),
+                            Value = "Owner"
+                        },
+                        new
+                        {
+                            Id = new Guid("7508f74b-cea5-4f7e-b979-6e6b5c0ea386"),
+                            ConcurrencyStamp = "348d3689-361f-4269-903e-510c718ef353",
+                            Type = "role",
+                            UserId = new Guid("a120fd96-1dea-4922-8403-289e5f2dbb6a"),
+                            Value = "SecurityAdmin"
                         });
                 });
 
@@ -223,7 +290,7 @@ namespace QuizTower.IDP.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLogins");
+                    b.ToTable("UserLogin", "Identity");
                 });
 
             modelBuilder.Entity("QuizTower.IDP.Entities.UserSecret", b =>
@@ -251,7 +318,7 @@ namespace QuizTower.IDP.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserSecret");
+                    b.ToTable("UserSecret", "Identity");
                 });
 
             modelBuilder.Entity("QuizTower.IDP.Entities.UserClaim", b =>

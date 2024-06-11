@@ -9,10 +9,10 @@ namespace QuizTower.IDP.Services
 {
     public class LocalUserService : ILocalUserService
     {
-        private readonly IdentityDbContext _context;
+        private readonly ApplicationDbContext _context;
         private readonly IPasswordHasher<User> _passwordHasher;
 
-        public LocalUserService(IdentityDbContext context, IPasswordHasher<User> passwordHasher)
+        public LocalUserService(ApplicationDbContext context, IPasswordHasher<User> passwordHasher)
         {
             _context = context ??
                        throw new ArgumentNullException(nameof(context));
