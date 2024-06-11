@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace QuizTower.IDP.Migrations.PersistedGrantDb
 {
     [DbContext(typeof(PersistedGrantDbContext))]
-    [Migration("20240514172331_InitialIdentityServerOperationalDBMigration")]
-    partial class InitialIdentityServerOperationalDBMigration
+    [Migration("20240607232002_InitialPersistedGrantDbContext")]
+    partial class InitialPersistedGrantDbContext
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

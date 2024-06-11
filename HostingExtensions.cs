@@ -29,7 +29,7 @@ internal static class HostingExtensions
         builder.Services.Configure<IISServerOptions>(iis =>
         {
             iis.AuthenticationDisplayName = "Windows";
-            iis.AutomaticAuthentication = false; 
+            iis.AutomaticAuthentication = false;
         });
 
         var options = new DefaultAzureCredentialOptions
@@ -68,10 +68,10 @@ internal static class HostingExtensions
 
         builder.Services.AddScoped<ILocalUserService, LocalUserService>();
 
-        builder.Services.AddDbContext<IdentityDbContext>(options =>
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
         {
             options.UseSqlServer(
-                builder.Configuration.GetConnectionString("QuizTowerIdentityDbConnectionString"));
+                builder.Configuration.GetConnectionString("DefaultConnection"));
         });
 
         var migrationsAssembly = typeof(Program).GetTypeInfo().Assembly.GetName().Name;
@@ -86,6 +86,7 @@ internal static class HostingExtensions
                 //options.LicenseKey = "";
             })
             .AddProfileService<LocalUserProfileService>()
+            // Note: AddInMemory is replaced by PersistedGrantDb MSSQL
             //.AddInMemoryIdentityResources(Config.IdentityResources)
             //.AddInMemoryApiResources(Config.ApiResources)
             //.AddInMemoryApiScopes(Config.ApiScopes)
@@ -94,7 +95,7 @@ internal static class HostingExtensions
             {
                 options.ConfigureDbContext = optionsBuilder =>
                     optionsBuilder.UseSqlServer(
-                        builder.Configuration.GetConnectionString("IdentityServerDBConnectionString"),
+                        builder.Configuration.GetConnectionString("IdentityServerDBConnection"),
                         sqlOptions => sqlOptions.MigrationsAssembly(migrationsAssembly));
             })
             .AddConfigurationStoreCache()
@@ -102,7 +103,7 @@ internal static class HostingExtensions
             {
                 options.ConfigureDbContext = optionsBuilder =>
                     optionsBuilder.UseSqlServer(
-                        builder.Configuration.GetConnectionString("IdentityServerDBConnectionString"),
+                        builder.Configuration.GetConnectionString("IdentityServerDBConnection"),
                         sqlOptions => sqlOptions.MigrationsAssembly(migrationsAssembly));
                 options.EnableTokenCleanup = true; // -> this is set to false by default. By setting it to true, we ensure that expired persisted tokens are automatically cleaned up, that ensures that our database won't grow out of control.
             })
@@ -124,7 +125,7 @@ internal static class HostingExtensions
             });
 
         builder.Services.AddAuthentication()
-            .AddFacebook("Facebook", options => 
+            .AddFacebook("Facebook", options =>
             {
                 options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                 options.AppId = "784150890372035";
@@ -139,13 +140,13 @@ internal static class HostingExtensions
 
         return builder.Build();
     }
-    
+
     public static WebApplication ConfigurePipeline(this WebApplication app)
     {
         app.UseForwardedHeaders();
 
         app.UseSerilogRequestLogging();
-    
+
         if (app.Environment.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();

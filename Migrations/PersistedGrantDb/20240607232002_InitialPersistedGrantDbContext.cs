@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace QuizTower.IDP.Migrations.PersistedGrantDb
 {
     /// <inheritdoc />
-    public partial class InitialIdentityServerOperationalDBMigration : Migration
+    public partial class InitialPersistedGrantDbContext : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

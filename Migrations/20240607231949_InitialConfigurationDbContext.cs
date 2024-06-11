@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace QuizTower.IDP.Migrations.ConfigurationDb
+namespace QuizTower.IDP.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialIdentityServerConfigurationStoreDataMigration : Migration
+    public partial class InitialConfigurationDbContext : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

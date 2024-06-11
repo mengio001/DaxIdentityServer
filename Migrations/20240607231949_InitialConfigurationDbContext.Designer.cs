@@ -9,18 +9,18 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace QuizTower.IDP.Migrations.ConfigurationDb
+namespace QuizTower.IDP.Migrations
 {
     [DbContext(typeof(ConfigurationDbContext))]
-    [Migration("20240514154313_InitialIdentityServerConfigurationStoreDataMigration")]
-    partial class InitialIdentityServerConfigurationStoreDataMigration
+    [Migration("20240607231949_InitialConfigurationDbContext")]
+    partial class InitialConfigurationDbContext
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);

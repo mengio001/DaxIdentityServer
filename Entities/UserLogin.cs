@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuizTower.IDP.Entities
 {
+    [Table("UserLogin", Schema = "Identity")]
     public class UserLogin : IConcurrencyAware
     {
         [Key]
