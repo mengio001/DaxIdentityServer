@@ -76,8 +76,7 @@ internal static class HostingExtensions
 
         var migrationsAssembly = typeof(Program).GetTypeInfo().Assembly.GetName().Name;
 
-        builder.Services
-            .AddIdentityServer(options =>
+        builder.Services.AddIdentityServer(options =>
             {
                 // This will emit an aud claim in the issuer_name/ resources format. If you need more control of the aud claim, use API resources.
                 // https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/api_scopes#authorization-based-on-scopes
