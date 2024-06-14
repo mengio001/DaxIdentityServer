@@ -18,7 +18,7 @@ public static class Config
     public static IEnumerable<ApiResource> ApiResources =>
         new ApiResource[]
             {
-                new ApiResource("usermanagementapi", "User Management System backend", 
+                new ApiResource("usermanagementapi", "User Management System Backend", 
                     new []
                     {
                         "role", 
@@ -31,9 +31,9 @@ public static class Config
                         "usermanagementapi.read",
                         "usermanagementapi.write"
                     },
-                    ApiSecrets = { new Secret("apisecret".Sha256()) }
+                    ApiSecrets = { new Secret("apisecret".Sha256()) } 
                 },
-                new ApiResource("quiztowerapi", "Tower of Quizzes backend", 
+                new ApiResource("towerofquizzesapi", "Tower of Quizzes BFF Backend", 
                     new []
                     {
                         "role", 
@@ -42,11 +42,11 @@ public static class Config
                 {
                     Scopes =
                     {
-                        "quiztowerapi.fullaccess",
-                        "quiztowerapi.read",
-                        "quiztowerapi.write"
+                        "towerofquizzesapi.fullaccess",
+                        "towerofquizzesapi.read",
+                        "towerofquizzesapi.write"
                     },
-                    ApiSecrets = { new Secret("apisecret".Sha256()) }
+                    ApiSecrets = { new Secret("bffapisecret".Sha256()) }
                 }
             };
 
@@ -56,9 +56,9 @@ public static class Config
                 new ApiScope("usermanagementapi.fullaccess"),
                 new ApiScope("usermanagementapi.read"),
                 new ApiScope("usermanagementapi.write"),
-                new ApiScope("quiztowerapi.fullaccess"),
-                new ApiScope("quiztowerapi.read"),
-                new ApiScope("quiztowerapi.write")
+                new ApiScope("towerofquizzesapi.fullaccess"),
+                new ApiScope("towerofquizzesapi.read"),
+                new ApiScope("towerofquizzesapi.write")
             };
 
     public static IEnumerable<Client> Clients =>
@@ -105,16 +105,14 @@ public static class Config
                 },
                 new Client()
                 {
-                    ClientName = "Tower of Quizzes Angular ClientApp",
-                    ClientId = "quiztowerclient",
+                    ClientName = "Tower of Quizzes BFF Angular SPA",
+                    ClientId = "towerofquizzesbff",
                     AllowedGrantTypes = GrantTypes.Code,
                     AccessTokenType = AccessTokenType.Reference,
                     AllowOfflineAccess = true,
                     AbsoluteRefreshTokenLifetime = 3600 * 24 * 30,
                     SlidingRefreshTokenLifetime = 3600 * 24 * 15,
                     UpdateAccessTokenClaimsOnRefresh = true,
-                    // IdentityTokenLifetime = ...
-                    // AuthorizationCodeLifetime = ... // During code-flow
                     AccessTokenLifetime = 3600,
                     RedirectUris =
                     {
@@ -130,15 +128,15 @@ public static class Config
                         IdentityServerConstants.StandardScopes.Profile,
                         "roles",
                         "country",
-                        "quiztowerapi.read",
-                        "quiztowerapi.write",
+                        "towerofquizzesapi.read",
+                        "towerofquizzesapi.write",
                         "offline_access"
                     },
                     ClientSecrets =
                     {
-                        new Secret("secret".Sha256())
-                    }, 
-                    // RequireConsent = true // Consent screen (opt-in checkbox) is handy for development otherwise, just disable it.
+                        new Secret("bffclientsecret".Sha256())
+                    },
+                    RequireConsent = true
                 }
             };
 }

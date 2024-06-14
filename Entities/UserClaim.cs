@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuizTower.IDP.Entities
 {
-    [Table("UserClaim", Schema = "Identity")]
+    [Table("UserClaims", Schema = "Identity")]
     public class UserClaim : IConcurrencyAware
     {
         [Key]

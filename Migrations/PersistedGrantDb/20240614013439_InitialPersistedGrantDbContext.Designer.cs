@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace QuizTower.IDP.Migrations.PersistedGrantDb
 {
     [DbContext(typeof(PersistedGrantDbContext))]
-    [Migration("20240607232002_InitialPersistedGrantDbContext")]
+    [Migration("20240614013439_InitialPersistedGrantDbContext")]
     partial class InitialPersistedGrantDbContext
     {
         /// <inheritdoc />

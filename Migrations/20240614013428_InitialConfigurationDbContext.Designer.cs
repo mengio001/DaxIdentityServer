@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace QuizTower.IDP.Migrations
 {
     [DbContext(typeof(ConfigurationDbContext))]
-    [Migration("20240607231949_InitialConfigurationDbContext")]
+    [Migration("20240614013428_InitialConfigurationDbContext")]
     partial class InitialConfigurationDbContext
     {
         /// <inheritdoc />
