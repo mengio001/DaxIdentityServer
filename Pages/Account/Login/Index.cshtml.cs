@@ -95,8 +95,10 @@ public class Index : PageModel
 
         if (ModelState.IsValid)
         {
+            var validateCredentialsAsync = await _localUserService.ValidateCredentialsAsync(Input.Username, Input.Password);
+            
             // validate username/password against in-memory store
-            if (await _localUserService.ValidateCredentialsAsync(Input.Username, Input.Password))
+            if (validateCredentialsAsync.Item1)
             {
                 var user = await _localUserService.GetUserByUserNameAsync(Input.Username);
                 await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Subject, user.UserName, clientId: context?.Client.ClientId));
@@ -150,11 +152,20 @@ public class Index : PageModel
                     throw new ArgumentException("invalid return URL");
                 }
             }
-
-            const string error = "invalid credentials";
-            await _events.RaiseAsync(new UserLoginFailureEvent(Input.Username, error, clientId:context?.Client.ClientId));
-            Telemetry.Metrics.UserLoginFailure(context?.Client.ClientId, IdentityServerConstants.LocalIdentityProvider, error);
-            ModelState.AddModelError(string.Empty, LoginOptions.InvalidCredentialsErrorMessage);
+            else if (validateCredentialsAsync.Item2 == "InActive")
+            {
+                const string error = "inactive account";
+                await _events.RaiseAsync(new UserLoginFailureEvent(Input.Username, error, clientId: context?.Client.ClientId));
+                Telemetry.Metrics.UserLoginFailure(context?.Client.ClientId, IdentityServerConstants.LocalIdentityProvider, error);
+                ModelState.AddModelError(string.Empty, LoginOptions.InactiveAccountErrorMessage);
+            }
+            else
+            {
+                const string error = "invalid credentials";
+                await _events.RaiseAsync(new UserLoginFailureEvent(Input.Username, error, clientId: context?.Client.ClientId));
+                Telemetry.Metrics.UserLoginFailure(context?.Client.ClientId, IdentityServerConstants.LocalIdentityProvider, error);
+                ModelState.AddModelError(string.Empty, LoginOptions.InvalidCredentialsErrorMessage);
+            }
         }
 
         // something went wrong, show form with error

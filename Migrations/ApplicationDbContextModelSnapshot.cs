@@ -3,29 +3,26 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuizTower.IDP.DbContexts;
 
 #nullable disable
 
-namespace QuizTower.IDP.Migrations.ApplicationDb
+namespace QuizTower.IDP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240614013454_InitialApplicationDbContext")]
-    partial class InitialApplicationDbContext
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.5")
+                .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("QuizTower.IDP.Entities.User", b =>
+            modelBuilder.Entity("QuizTower.IDP.Entities.AspNetUser", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,7 +34,9 @@ namespace QuizTower.IDP.Migrations.ApplicationDb
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ConcurrencyStamp")
+                        .HasColumnOrder(0);
 
                     b.Property<string>("Email")
                         .HasMaxLength(200)
@@ -72,14 +71,14 @@ namespace QuizTower.IDP.Migrations.ApplicationDb
                         .IsUnique()
                         .HasFilter("[UserName] IS NOT NULL");
 
-                    b.ToTable("Users", "Identity");
+                    b.ToTable("AspNetUsers", "Identity");
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
                             Active = true,
-                            ConcurrencyStamp = "ceb4f9de-88fa-421a-83bb-e59ae01458f8",
+                            ConcurrencyStamp = "71c8d265-9eac-4fcf-be1f-c6b7ecd655ac",
                             Email = "david@someprovider.com",
                             Password = "AQAAAAIAAYagAAAAEAFfhxfb2YqaRx4WePWJMkIE/tmk/oY7csVwmRqu63+TjAVYgulpGORreroxJD1AdA==",
                             SecurityCodeExpirationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -90,7 +89,7 @@ namespace QuizTower.IDP.Migrations.ApplicationDb
                         {
                             Id = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
                             Active = true,
-                            ConcurrencyStamp = "bd2b6534-5c0e-4a72-ac27-0787d10bf26b",
+                            ConcurrencyStamp = "8315eadb-caa7-452d-8c46-bd15d1791c7b",
                             Email = "emma@someprovider.com",
                             Password = "AQAAAAIAAYagAAAAEAFfhxfb2YqaRx4WePWJMkIE/tmk/oY7csVwmRqu63+TjAVYgulpGORreroxJD1AdA==",
                             SecurityCodeExpirationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -101,7 +100,7 @@ namespace QuizTower.IDP.Migrations.ApplicationDb
                         {
                             Id = new Guid("a120fd96-1dea-4922-8403-289e5f2dbb6a"),
                             Active = true,
-                            ConcurrencyStamp = "7378a412-d481-4da8-ac46-77de95e03859",
+                            ConcurrencyStamp = "2149b3ed-d54d-47a7-afb1-8cde7e7a075a",
                             Email = "admin@admin.com",
                             Password = "AQAAAAIAAYagAAAAEAFfhxfb2YqaRx4WePWJMkIE/tmk/oY7csVwmRqu63+TjAVYgulpGORreroxJD1AdA==",
                             SecurityCodeExpirationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -110,7 +109,7 @@ namespace QuizTower.IDP.Migrations.ApplicationDb
                         });
                 });
 
-            modelBuilder.Entity("QuizTower.IDP.Entities.UserClaim", b =>
+            modelBuilder.Entity("QuizTower.IDP.Entities.AspNetUserClaim", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -119,7 +118,9 @@ namespace QuizTower.IDP.Migrations.ApplicationDb
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ConcurrencyStamp")
+                        .HasColumnOrder(0);
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -138,140 +139,143 @@ namespace QuizTower.IDP.Migrations.ApplicationDb
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserClaims", "Identity");
+                    b.ToTable("AspNetUserClaims", "Identity");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("44d12e4a-3c29-4200-a341-0923d9c89855"),
-                            ConcurrencyStamp = "8647b7ba-c8fc-4a99-8b48-6bab02605b64",
+                            Id = new Guid("43613a6e-f767-4ca2-994f-b953dcbf5006"),
+                            ConcurrencyStamp = "4fd60a1c-0275-4e55-8478-f3ea020a04ab",
                             Type = "given_name",
                             UserId = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
                             Value = "David"
                         },
                         new
                         {
-                            Id = new Guid("b8e60610-32a4-4253-8a4d-b1782a26a160"),
-                            ConcurrencyStamp = "f5d27ec9-bc41-4a2c-8ed5-85a5df32f705",
+                            Id = new Guid("a489adef-e696-4ea8-afe9-0f60a6a2b70c"),
+                            ConcurrencyStamp = "445c1570-db9c-4ef1-a429-f2e7fb924786",
                             Type = "family_name",
                             UserId = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
                             Value = "Flagg"
                         },
                         new
                         {
-                            Id = new Guid("7e609aff-85f6-4962-9bfe-3c85d90ecb7c"),
-                            ConcurrencyStamp = "cc5e6704-f055-4627-b472-90c547a73c4a",
+                            Id = new Guid("f6f9a848-6ae4-483e-b4c5-d3c56c5d5bf8"),
+                            ConcurrencyStamp = "7e96ebba-e9cc-42ea-ba09-32ab249ac874",
                             Type = "country",
                             UserId = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
                             Value = "nl"
                         },
                         new
                         {
-                            Id = new Guid("148524c2-4095-42e0-917b-33268e7741a6"),
-                            ConcurrencyStamp = "6983dfb3-6819-44ea-b659-5ed17f5c9d1d",
+                            Id = new Guid("ab35d664-e2be-4e2e-8c0b-6a79845c0126"),
+                            ConcurrencyStamp = "ac4fed47-925e-4a15-a023-c68c11512dfb",
                             Type = "role",
                             UserId = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
                             Value = "FreeUser"
                         },
                         new
                         {
-                            Id = new Guid("0506f580-6a00-4b7c-a6b7-6fb7acb9077b"),
-                            ConcurrencyStamp = "5c6d656b-3ad3-4e0e-9a41-f82d5645644d",
+                            Id = new Guid("e7e73b50-a546-4dd7-98a6-f04aeae04c3a"),
+                            ConcurrencyStamp = "7d2ef7a7-ec2f-40fb-8ab1-cd0c40ad53f5",
                             Type = "role",
                             UserId = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
                             Value = "Player"
                         },
                         new
                         {
-                            Id = new Guid("5b72aed3-1b26-41eb-a5e6-129b75330681"),
-                            ConcurrencyStamp = "45ee0fdf-eb4f-4f3a-8c5b-bf11a939cb5a",
+                            Id = new Guid("fb79ff32-d67c-4424-b358-dabc38a46922"),
+                            ConcurrencyStamp = "7309b04d-936b-4b51-ae9d-f2a6ba1c825d",
                             Type = "given_name",
                             UserId = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
                             Value = "Emma"
                         },
                         new
                         {
-                            Id = new Guid("c2bd0a20-5d0b-4bff-a4d8-1da5e944d4cc"),
-                            ConcurrencyStamp = "6975919b-ded6-4a42-b3b5-c877bfe46b2f",
+                            Id = new Guid("47b1d199-e57b-4cbe-b1e2-8d824e043c4d"),
+                            ConcurrencyStamp = "526a990e-debf-4de9-9143-869b6751e3b1",
                             Type = "family_name",
                             UserId = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
                             Value = "Flagg"
                         },
                         new
                         {
-                            Id = new Guid("1635554c-790f-4b8c-a4ed-def3ee3dbd4e"),
-                            ConcurrencyStamp = "d282c098-801d-40a7-bd38-4294bebdf831",
+                            Id = new Guid("fd50dee5-cddd-4d6c-b3b4-533eb2c4ceb9"),
+                            ConcurrencyStamp = "e26a54a3-a580-444f-b41e-fd6fa7e4b090",
                             Type = "country",
                             UserId = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
                             Value = "be"
                         },
                         new
                         {
-                            Id = new Guid("3eb4f1d0-a07e-462b-8a8b-aa574e17f3ff"),
-                            ConcurrencyStamp = "12a3edfd-7514-4e6c-a1de-e923a7e43677",
+                            Id = new Guid("a536485b-56ad-41b4-aaa5-1310d2e9b59d"),
+                            ConcurrencyStamp = "1b135caa-3f69-4232-9509-a6abed81bbc3",
                             Type = "role",
                             UserId = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
                             Value = "PayingUser"
                         },
                         new
                         {
-                            Id = new Guid("0559b1ba-51b5-43c9-a25c-224583e97e38"),
-                            ConcurrencyStamp = "75bac4d2-91ee-4d91-bdc7-7a44bacabd85",
+                            Id = new Guid("9b8b95bd-2353-4acf-9d9a-3d0f62adde2f"),
+                            ConcurrencyStamp = "63027ba2-c9d8-4c21-8439-9f5edcf0915c",
                             Type = "role",
                             UserId = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
                             Value = "QuizMaster"
                         },
                         new
                         {
-                            Id = new Guid("7acce744-a902-4f34-9ab9-92bd6354cc10"),
-                            ConcurrencyStamp = "039b49fd-a8a2-4ea2-b5df-2c3fd6a0cad6",
+                            Id = new Guid("72eb129c-d954-4211-8b94-e3d594705499"),
+                            ConcurrencyStamp = "3d0f46ef-289c-4472-b570-b2a343b18a38",
                             Type = "given_name",
                             UserId = new Guid("a120fd96-1dea-4922-8403-289e5f2dbb6a"),
                             Value = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("604287f2-e37b-42b2-86a5-291f3b9e50d4"),
-                            ConcurrencyStamp = "b98f552e-2db6-45f4-90e5-d73194c157c8",
+                            Id = new Guid("7a59a12a-aaed-4799-862a-fddd4fb4f521"),
+                            ConcurrencyStamp = "69e21ea4-d751-4273-9e51-94fe4a5f95f6",
                             Type = "family_name",
                             UserId = new Guid("a120fd96-1dea-4922-8403-289e5f2dbb6a"),
                             Value = "Flagg"
                         },
                         new
                         {
-                            Id = new Guid("7196300d-a1fc-4f03-9508-9a97c26d0dfd"),
-                            ConcurrencyStamp = "8a6b5fff-dc5f-46a2-8ef0-a1bccfe59198",
+                            Id = new Guid("b25df510-2891-4895-94ba-019995de222c"),
+                            ConcurrencyStamp = "742cb02a-4e9c-4545-a438-fa906284edf0",
                             Type = "country",
                             UserId = new Guid("a120fd96-1dea-4922-8403-289e5f2dbb6a"),
                             Value = "nl"
                         },
                         new
                         {
-                            Id = new Guid("e0a22e93-d8aa-4073-8a92-713ab26b7aa9"),
-                            ConcurrencyStamp = "d78bc5bc-a0aa-424a-a23d-8e3f72032444",
+                            Id = new Guid("913474cd-d936-4f9d-8431-2aaca8a95dff"),
+                            ConcurrencyStamp = "43d5b0c9-54d6-45ac-a270-c0cc466876a2",
                             Type = "role",
                             UserId = new Guid("a120fd96-1dea-4922-8403-289e5f2dbb6a"),
                             Value = "Owner"
                         },
                         new
                         {
-                            Id = new Guid("8399b86b-92dd-41c4-9da6-dedb0d6acd93"),
-                            ConcurrencyStamp = "86b376b8-577c-4a78-ab2c-cb3acfbba53e",
+                            Id = new Guid("bd7a3177-49f5-464f-b399-b1958e85463d"),
+                            ConcurrencyStamp = "2e8e47f6-561c-450a-b139-ed268ce85f77",
                             Type = "role",
                             UserId = new Guid("a120fd96-1dea-4922-8403-289e5f2dbb6a"),
                             Value = "SecurityAdmin"
                         });
                 });
 
-            modelBuilder.Entity("QuizTower.IDP.Entities.UserLogin", b =>
+            modelBuilder.Entity("QuizTower.IDP.Entities.AspNetUserLogin", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ConcurrencyStamp")
+                        .HasColumnOrder(0);
 
                     b.Property<string>("Provider")
                         .IsRequired()
@@ -290,18 +294,21 @@ namespace QuizTower.IDP.Migrations.ApplicationDb
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLogins", "Identity");
+                    b.ToTable("AspNetUserLogins", "Identity");
                 });
 
-            modelBuilder.Entity("QuizTower.IDP.Entities.UserSecret", b =>
+            modelBuilder.Entity("QuizTower.IDP.Entities.AspNetUserSecret", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ConcurrencyStamp")
+                        .HasColumnOrder(0);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -318,43 +325,43 @@ namespace QuizTower.IDP.Migrations.ApplicationDb
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserSecrets", "Identity");
+                    b.ToTable("AspNetUserSecrets", "Identity");
                 });
 
-            modelBuilder.Entity("QuizTower.IDP.Entities.UserClaim", b =>
+            modelBuilder.Entity("QuizTower.IDP.Entities.AspNetUserClaim", b =>
                 {
-                    b.HasOne("QuizTower.IDP.Entities.User", "User")
+                    b.HasOne("QuizTower.IDP.Entities.AspNetUser", "AspNetUser")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("AspNetUser");
                 });
 
-            modelBuilder.Entity("QuizTower.IDP.Entities.UserLogin", b =>
+            modelBuilder.Entity("QuizTower.IDP.Entities.AspNetUserLogin", b =>
                 {
-                    b.HasOne("QuizTower.IDP.Entities.User", "User")
+                    b.HasOne("QuizTower.IDP.Entities.AspNetUser", "AspNetUser")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("AspNetUser");
                 });
 
-            modelBuilder.Entity("QuizTower.IDP.Entities.UserSecret", b =>
+            modelBuilder.Entity("QuizTower.IDP.Entities.AspNetUserSecret", b =>
                 {
-                    b.HasOne("QuizTower.IDP.Entities.User", "User")
+                    b.HasOne("QuizTower.IDP.Entities.AspNetUser", "AspNetUser")
                         .WithMany("Secrets")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("AspNetUser");
                 });
 
-            modelBuilder.Entity("QuizTower.IDP.Entities.User", b =>
+            modelBuilder.Entity("QuizTower.IDP.Entities.AspNetUser", b =>
                 {
                     b.Navigation("Claims");
 

@@ -5,35 +5,35 @@ namespace QuizTower.IDP.Services
 {
     public interface ILocalUserService
     {
-        Task<User> GetUserByEmailAsync(string email);
+        Task<AspNetUser> GetUserByEmailAsync(string email);
 
         Task AddExternalProviderToUser(
             string subject,
             string provider,
             string providerIdentityKey);
 
-        Task<User> FindUserByExternalProviderAsync(
+        Task<AspNetUser> FindUserByExternalProviderAsync(
             string provider,
             string providerIdentityKey);
         
-        public User AutoProvisionUser(string provider,
+        public AspNetUser AutoProvisionUser(string provider,
             string providerIdentityKey,
             IEnumerable<Claim> claims);
 
-        Task<bool> ValidateCredentialsAsync(
+        Task<(bool, string?)> ValidateCredentialsAsync(
              string userName,
              string password);
 
-        Task<IEnumerable<UserClaim>> GetUserClaimsBySubjectAsync(
+        Task<IEnumerable<AspNetUserClaim>> GetUserClaimsBySubjectAsync(
             string subject);
 
-        Task<User> GetUserByUserNameAsync(
+        Task<AspNetUser> GetUserByUserNameAsync(
             string userName);
 
-        Task<User> GetUserBySubjectAsync(
+        Task<AspNetUser> GetUserBySubjectAsync(
             string subject);
 
-        void AddUser(User userToAdd, string password);
+        void AddUser(AspNetUser aspNetUserToAdd, string password);
 
         Task<bool> IsUserActive(string subject);
 

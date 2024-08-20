@@ -1,6 +1,8 @@
 ﻿using Duende.IdentityServer.EntityFramework.DbContexts;
 using Duende.IdentityServer.EntityFramework.Mappers;
+using Microsoft.Extensions.Configuration;
 using Serilog;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace QuizTower.IDP
 {
@@ -11,16 +13,19 @@ namespace QuizTower.IDP
             using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var context = scope.ServiceProvider.GetService<ConfigurationDbContext>();
-                EnsureSeedData(context);
+                var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+                var env = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
+
+                EnsureSeedData(context, configuration, env);
             }
         }
 
-        private static void EnsureSeedData(ConfigurationDbContext context)
+        private static void EnsureSeedData(ConfigurationDbContext context, IConfiguration? configuration, IWebHostEnvironment env)
         {
-            if (!context.Clients.Any())
+            if (!context.Clients.Any() && configuration?.GetSection("Clients") != null)
             {
                 Log.Debug("Clients being populated");
-                foreach (var client in Config.Clients.ToList())
+                foreach (var client in Config.Clients(configuration, env).ToList())
                 {
                     context.Clients.Add(client.ToEntity());
                 }

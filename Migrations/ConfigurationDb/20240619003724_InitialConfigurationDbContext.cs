@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace QuizTower.IDP.Migrations
+namespace QuizTower.IDP.Migrations.ConfigurationDb
 {
     /// <inheritdoc />
     public partial class InitialConfigurationDbContext : Migration
