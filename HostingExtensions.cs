@@ -11,6 +11,7 @@ using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection;
+using QuizTower.IDP.Util;
 
 namespace QuizTower.IDP;
 
@@ -32,18 +33,18 @@ internal static class HostingExtensions
             iis.AutomaticAuthentication = false;
         });
 
-        var options = new DefaultAzureCredentialOptions
-        {
-            AuthorityHost = AzureAuthorityHosts.AzurePublicCloud,
-            TenantId = "5692e72c-b118-45bb-8575-47c1c00b31ed"
-        };
-        // note: AddDataProtection key will be stored in Azure Blob Storage, and we'll protect it with a key stored in KeyVault.
-        // wiki: https://learn.microsoft.com/en-us/aspnet/core/security/data-protection/configuration/overview?view=aspnetcore-8.0
-        var azureCredential = new DefaultAzureCredential(options);
+        //////var options = new DefaultAzureCredentialOptions
+        //////{
+        //////    AuthorityHost = AzureAuthorityHosts.AzurePublicCloud,
+        //////    TenantId = "5692e72c-b118-45bb-8575-47c1c00b31ed"
+        //////};
+        //////// note: AddDataProtection key will be stored in Azure Blob Storage, and we'll protect it with a key stored in KeyVault.
+        //////// wiki: https://learn.microsoft.com/en-us/aspnet/core/security/data-protection/configuration/overview?view=aspnetcore-8.0
+        //////var azureCredential = new DefaultAzureCredential(options);
 
-        builder.Services.AddDataProtection()
-            .PersistKeysToAzureBlobStorage(new Uri(builder.Configuration["DataProtection:Keys"]), azureCredential)
-            .ProtectKeysWithAzureKeyVault(new Uri(builder.Configuration["DataProtection:ProtectionKeyForKeys"]), azureCredential);
+        //////builder.Services.AddDataProtection()
+        //////    .PersistKeysToAzureBlobStorage(new Uri(builder.Configuration["DataProtection:Keys"]), azureCredential)
+        //////    .ProtectKeysWithAzureKeyVault(new Uri(builder.Configuration["DataProtection:ProtectionKeyForKeys"]), azureCredential);
 
         // Instead of CertificateClient I am going to use SecretClient to get secrets from KeyVault (private and public to support signingCertificate.
         // GetCertificate() -> With this call we will get certificate info and public, with public key we can validate a signature or encrypt something.
@@ -57,14 +58,14 @@ internal static class HostingExtensions
         // - key resource (private key)
         // - secret resource (full certificate: certificate resource and private key)
 
-        var secretClient = new SecretClient(new Uri(builder.Configuration["KeyVault:RootUri"]), azureCredential);
-        var secretResponse = secretClient.GetSecret(builder.Configuration["KeyVault:CertificateName"]);
+        //////var secretClient = new SecretClient(new Uri(builder.Configuration["KeyVault:RootUri"]), azureCredential);
+        //////var secretResponse = secretClient.GetSecret(builder.Configuration["KeyVault:CertificateName"]);
 
-        var signingCertificate = new X509Certificate2(Convert.FromBase64String(secretResponse.Value.Value), (string)null, X509KeyStorageFlags.MachineKeySet);
+        //////var signingCertificate = new X509Certificate2(Convert.FromBase64String(secretResponse.Value.Value), (string)null, X509KeyStorageFlags.MachineKeySet);
 
         builder.Services.AddRazorPages();
 
-        builder.Services.AddScoped<IPasswordHasher<Entities.User>, PasswordHasher<Entities.User>>();
+        builder.Services.AddScoped<IPasswordHasher<Entities.AspNetUser>, PasswordHasher<Entities.AspNetUser>>();
 
         builder.Services.AddScoped<ILocalUserService, LocalUserService>();
 
@@ -81,7 +82,7 @@ internal static class HostingExtensions
                 // This will emit an aud claim in the issuer_name/ resources format. If you need more control of the aud claim, use API resources.
                 // https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/api_scopes#authorization-based-on-scopes
                 options.EmitStaticAudienceClaim = true;
-                // In progress, I've sent email to 'contact@duendesoftware.com' for applying Duende Free Community Edition license key.
+                // In progress, I've emailed 'contact@duendesoftware.com' to apply for the Duende Free Community Edition license key.
                 //options.LicenseKey = "";
             })
             .AddProfileService<LocalUserProfileService>()
@@ -105,23 +106,23 @@ internal static class HostingExtensions
                         builder.Configuration.GetConnectionString("IdentityServerDBConnection"),
                         sqlOptions => sqlOptions.MigrationsAssembly(migrationsAssembly));
                 options.EnableTokenCleanup = true; // -> this is set to false by default. By setting it to true, we ensure that expired persisted tokens are automatically cleaned up, that ensures that our database won't grow out of control.
-            })
-            .AddSigningCredential(signingCertificate);
-
-        builder.Services.AddAuthentication()
-            .AddOpenIdConnect("AAD", "Microsoft Entra ID", options =>
-            {
-                options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-                options.Authority = "https://login.microsoftonline.com/5692e72c-b118-45bb-8575-47c1c00b31ed/v2.0";
-                options.ClientId = "3aebc331-5ebd-4e8b-ad95-5d3276bb5c22";
-                options.ClientSecret = "ekP8Q~Umm.4AAyHUBzoPV.4vepJ2X6Foen2RAbjt";
-                options.ResponseType = "code";
-                options.CallbackPath = new PathString("/signin-aad/");
-                options.SignedOutCallbackPath = new PathString("/signout-aad/");
-                options.Scope.Add("email");
-                options.Scope.Add("offline_access");
-                options.SaveTokens = true;
             });
+            //////.AddSigningCredential(signingCertificate);
+
+        ////////builder.Services.AddAuthentication()
+        ////////    .AddOpenIdConnect("AAD", "Microsoft Entra ID", options =>
+        ////////    {
+        ////////        options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+        ////////        options.Authority = "https://login.microsoftonline.com/5692e72c-b118-45bb-8575-47c1c00b31ed/v2.0";
+        ////////        options.ClientId = "3aebc331-5ebd-4e8b-ad95-5d3276bb5c22";
+        ////////        options.ClientSecret = "ekP8Q~Umm.4AAyHUBzoPV.4vepJ2X6Foen2RAbjt";
+        ////////        options.ResponseType = "code";
+        ////////        options.CallbackPath = new PathString("/signin-aad/");
+        ////////        options.SignedOutCallbackPath = new PathString("/signout-aad/");
+        ////////        options.Scope.Add("email");
+        ////////        options.Scope.Add("offline_access");
+        ////////        options.SaveTokens = true;
+        ////////    });
 
         builder.Services.AddAuthentication()
             .AddFacebook("Facebook", options =>
@@ -146,7 +147,7 @@ internal static class HostingExtensions
 
         app.UseSerilogRequestLogging();
 
-        if (app.Environment.IsDevelopment())
+        if (app.Environment.IsDevelopment() || app.Environment.IsTest())
         {
             app.UseDeveloperExceptionPage();
         }

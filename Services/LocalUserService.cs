@@ -10,9 +10,9 @@ namespace QuizTower.IDP.Services
     public class LocalUserService : ILocalUserService
     {
         private readonly ApplicationDbContext _context;
-        private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly IPasswordHasher<AspNetUser> _passwordHasher;
 
-        public LocalUserService(ApplicationDbContext context, IPasswordHasher<User> passwordHasher)
+        public LocalUserService(ApplicationDbContext context, IPasswordHasher<AspNetUser> passwordHasher)
         {
             _context = context ??
                        throw new ArgumentNullException(nameof(context));
@@ -20,7 +20,7 @@ namespace QuizTower.IDP.Services
                               throw new ArgumentNullException(nameof(passwordHasher));
         }
 
-        public async Task<User> FindUserByExternalProviderAsync(string provider, string providerIdentityKey)
+        public async Task<AspNetUser> FindUserByExternalProviderAsync(string provider, string providerIdentityKey)
         {
             if (string.IsNullOrWhiteSpace(provider))
             {
@@ -32,13 +32,13 @@ namespace QuizTower.IDP.Services
                 throw new ArgumentNullException(nameof(providerIdentityKey));
             }
 
-            var userLogin = await _context.UserLogins.Include(ul => ul.User)
+            var userLogin = await _context.AspNetUserLogins.Include(ul => ul.AspNetUser)
                 .FirstOrDefaultAsync(ul => ul.Provider == provider && ul.ProviderIdentityKey == providerIdentityKey);
 
-            return userLogin?.User;
+            return userLogin?.AspNetUser;
         }
 
-        public User AutoProvisionUser(string provider,
+        public AspNetUser AutoProvisionUser(string provider,
             string providerIdentityKey,
             IEnumerable<Claim> claims)
         {
@@ -57,7 +57,7 @@ namespace QuizTower.IDP.Services
                 throw new ArgumentNullException(nameof(claims));
             }
 
-            var user = new User()
+            var user = new AspNetUser()
             {
                 Active = true,
                 Subject = Guid.NewGuid().ToString()
@@ -65,31 +65,31 @@ namespace QuizTower.IDP.Services
 
             foreach (var claim in claims)
             {
-                user.Claims.Add(new UserClaim()
+                user.Claims.Add(new AspNetUserClaim()
                 {
                     Type = claim.Type,
                     Value = claim.Value
                 });
             }
 
-            user.Logins.Add(new UserLogin()
+            user.Logins.Add(new AspNetUserLogin()
             {
                 Provider = provider,
                 ProviderIdentityKey = providerIdentityKey
             });
 
-            _context.Users.Add(user);
+            _context.AspNetUsers.Add(user);
             return user;
         }
 
-        public async Task<User> GetUserByEmailAsync(string email)
+        public async Task<AspNetUser> GetUserByEmailAsync(string email)
         {
             if (email is null)
             {
                 throw new ArgumentNullException(nameof(email));
             }
 
-            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            return await _context.AspNetUsers.FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task AddExternalProviderToUser(
@@ -113,7 +113,7 @@ namespace QuizTower.IDP.Services
             }
 
             var user = await GetUserBySubjectAsync(subject);
-            user.Logins.Add(new UserLogin()
+            user.Logins.Add(new AspNetUserLogin()
             {
                 Provider = provider,
                 ProviderIdentityKey = providerIdentityKey
@@ -137,89 +137,88 @@ namespace QuizTower.IDP.Services
             return user.Active;
         }
 
-        public async Task<bool> ValidateCredentialsAsync(string userName, string password)
+        public async Task<(bool, string?)> ValidateCredentialsAsync(string userName, string password)
         {
             if (string.IsNullOrWhiteSpace(userName) ||
                 string.IsNullOrWhiteSpace(password))
             {
-                return false;
+                return (false, null);
             }
 
             var user = await GetUserByUserNameAsync(userName);
 
             if (user == null)
             {
-                return false;
+                return (false, null);
             }
 
             if (!user.Active)
             {
-                return false;
+                return (false, "InActive");
             }
 
             // Validate credentials
             // return (user.Password == password);
             var verificationResult = _passwordHasher.VerifyHashedPassword(user, user.Password, password);
-            return (verificationResult == PasswordVerificationResult.Success);
-
+            return ((verificationResult == PasswordVerificationResult.Success), null);
         }
 
-        public async Task<User> GetUserByUserNameAsync(string userName)
+        public async Task<AspNetUser> GetUserByUserNameAsync(string userName)
         {
             if (string.IsNullOrWhiteSpace(userName))
             {
                 throw new ArgumentNullException(nameof(userName));
             }
 
-            return await _context.Users
+            return await _context.AspNetUsers
                  .FirstOrDefaultAsync(u => u.UserName == userName);
         }
 
-        public async Task<IEnumerable<UserClaim>> GetUserClaimsBySubjectAsync(string subject)
+        public async Task<IEnumerable<AspNetUserClaim>> GetUserClaimsBySubjectAsync(string subject)
         {
             if (string.IsNullOrWhiteSpace(subject))
             {
                 throw new ArgumentNullException(nameof(subject));
             }
 
-            return await _context.UserClaims.Where(u => u.User.Subject == subject).ToListAsync();
+            return await _context.AspNetUserClaims.Where(u => u.AspNetUser.Subject == subject).ToListAsync();
         }
 
-        public async Task<User> GetUserBySubjectAsync(string subject)
+        public async Task<AspNetUser> GetUserBySubjectAsync(string subject)
         {
             if (string.IsNullOrWhiteSpace(subject))
             {
                 throw new ArgumentNullException(nameof(subject));
             }
 
-            return await _context.Users.FirstOrDefaultAsync(u => u.Subject == subject);
+            return await _context.AspNetUsers.FirstOrDefaultAsync(u => u.Subject == subject);
         }
 
-        public void AddUser(User userToAdd, string password)
+        public void AddUser(AspNetUser aspNetUserToAdd, string password)
         {
-            if (userToAdd == null)
+            if (aspNetUserToAdd == null)
             {
-                throw new ArgumentNullException(nameof(userToAdd));
+                throw new ArgumentNullException(nameof(aspNetUserToAdd));
             }
 
-            if (_context.Users.Any(u => u.UserName == userToAdd.UserName))
+            if (_context.AspNetUsers.Any(u => u.UserName == aspNetUserToAdd.UserName))
             {
                 throw new Exception("Username must be unique");
             }
 
-            if (_context.Users.Any(u => u.Email == userToAdd.Email))
+            if (_context.AspNetUsers.Any(u => u.Email == aspNetUserToAdd.Email))
             {
                 throw new Exception("Email must be unique");
             }
 
-            userToAdd.SecurityCode = Convert.ToBase64String(RandomNumberGenerator.GetBytes(128));
+            aspNetUserToAdd.SecurityCode = Convert.ToBase64String(RandomNumberGenerator.GetBytes(128));
 
-            userToAdd.SecurityCodeExpirationDate = DateTime.UtcNow.AddHours(1);
+            aspNetUserToAdd.SecurityCodeExpirationDate = DateTime.UtcNow.AddHours(1);
 
             // hash & salt the password
-            userToAdd.Password = _passwordHasher.HashPassword(userToAdd, password);
+            aspNetUserToAdd.Password = _passwordHasher.HashPassword(aspNetUserToAdd, password);
 
-            _context.Users.Add(userToAdd);
+            _context.AspNetUsers.Add(aspNetUserToAdd);
         }
 
         public async Task<bool> ActivateUserAsync(string securityCode)
@@ -230,17 +229,51 @@ namespace QuizTower.IDP.Services
             }
 
             // find a user with this security code as an active security code.  
-            var user = await _context.Users.FirstOrDefaultAsync(u =>
+            var user = await _context.AspNetUsers.FirstOrDefaultAsync(u =>
                 u.SecurityCode == securityCode &&
                 u.SecurityCodeExpirationDate >= DateTime.UtcNow);
 
-            if (user == null)
-            {
+            if (user == null) 
                 return false;
-            }
 
             user.Active = true;
             user.SecurityCode = null;
+
+            var query = @$"declare @outId INT, @aspNetUser nvarchar(200) = '{user.UserName}';
+                    INSERT INTO [TOQ].[User] 
+	                    ([CREATED]
+	                    ,[CREATEDBY]
+	                    ,[CHANGED]
+	                    ,[CHANGEDBY]
+	                    ,[ConcurrencyStamp]
+	                    ,[IsDeleted]
+	                    ,[ValidFrom]
+	                    ,[ValidUntil])
+                    VALUES
+	                    (getdate()
+	                    ,@aspNetUser
+	                    ,getdate()
+	                    ,@aspNetUser
+	                    ,NEWID()
+	                    ,cast(0 as bit)
+	                    ,CAST(DATEADD(DAY, 0, GETDATE()) AS DateTime)
+	                    ,CAST(DATEADD(YEAR, 1, GETDATE()) AS DateTime));
+                    SET @outId = SCOPE_IDENTITY();
+
+                    INSERT INTO [TOQ].[AccountLinkPath] 
+	                    ([UserName]
+	                    ,[IdentityProviderId]
+	                    ,[UserId]
+	                    ,[AspNetUserId]
+	                    ,[SubjectId])
+                    VALUES
+	                    (@aspNetUser
+	                    ,1
+	                    ,@outId
+	                    ,'{user.Id}'
+	                    ,'{user.Subject}');";
+
+            await ((ApplicationDbContext)_context).Database.ExecuteSqlRawAsync(query);
             return true;
         }
 

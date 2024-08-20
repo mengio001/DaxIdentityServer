@@ -3,9 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuizTower.IDP.Entities
 {
-    [Table("UserLogins", Schema = "Identity")]
-    public class UserLogin : IConcurrencyAware
+    [Table("AspNetUserLogins", Schema = "Identity")]
+    public class AspNetUserLogin : IConcurrencyAware
     {
+        [ConcurrencyCheck]
+        [Column("ConcurrencyStamp", Order = 0)]
+        public string ConcurrencyStamp { get; set; } = Guid.NewGuid().ToString();
+
         [Key]
         public Guid Id { get; set; }
 
@@ -20,8 +24,8 @@ namespace QuizTower.IDP.Entities
         [Required]
         public Guid UserId { get; set; }
 
-        public User User { get; set; }
-
-        public string ConcurrencyStamp { get; set; } = Guid.NewGuid().ToString();
+        [ForeignKey("UserId")]
+        [InverseProperty("Logins")]
+        public AspNetUser? AspNetUser { get; set; }
     }
 }

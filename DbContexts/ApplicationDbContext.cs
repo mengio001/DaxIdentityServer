@@ -5,11 +5,11 @@ namespace QuizTower.IDP.DbContexts
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
+        public DbSet<AspNetUser> AspNetUsers { get; set; }
 
-        public DbSet<UserClaim> UserClaims { get; set; }
+        public DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
 
-        public DbSet<UserLogin> UserLogins { get; set; }
+        public DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -20,16 +20,16 @@ namespace QuizTower.IDP.DbContexts
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<AspNetUser>()
             .HasIndex(u => u.Subject)
             .IsUnique();
 
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<AspNetUser>()
             .HasIndex(u => u.UserName)
             .IsUnique();
 
-            modelBuilder.Entity<User>().HasData(
-                new User()
+            modelBuilder.Entity<AspNetUser>().HasData(
+                new AspNetUser()
                 {
                     Id = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
                     Password = "AQAAAAIAAYagAAAAEAFfhxfb2YqaRx4WePWJMkIE/tmk/oY7csVwmRqu63+TjAVYgulpGORreroxJD1AdA==",
@@ -38,7 +38,7 @@ namespace QuizTower.IDP.DbContexts
                     Email = "david@someprovider.com",
                     Active = true
                 },
-                new User()
+                new AspNetUser()
                 {
                     Id = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
                     Password = "AQAAAAIAAYagAAAAEAFfhxfb2YqaRx4WePWJMkIE/tmk/oY7csVwmRqu63+TjAVYgulpGORreroxJD1AdA==",
@@ -47,7 +47,7 @@ namespace QuizTower.IDP.DbContexts
                     Email = "emma@someprovider.com",
                     Active = true
                 },
-                new User()
+                new AspNetUser()
                 {
                     Id = new Guid("A120FD96-1DEA-4922-8403-289E5F2DBB6A"),
                     Password = "AQAAAAIAAYagAAAAEAFfhxfb2YqaRx4WePWJMkIE/tmk/oY7csVwmRqu63+TjAVYgulpGORreroxJD1AdA==",
@@ -57,112 +57,112 @@ namespace QuizTower.IDP.DbContexts
                     Active = true
                 });
 
-            modelBuilder.Entity<UserClaim>().HasData(
-             new UserClaim()
-             {
-                 Id = Guid.NewGuid(),
-                 UserId = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
-                 Type = "given_name",
-                 Value = "David"
-             },
-             new UserClaim()
-             {
-                 Id = Guid.NewGuid(),
-                 UserId = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
-                 Type = "family_name",
-                 Value = "Flagg"
-             }, 
-             new UserClaim()
-             {
-                 Id = Guid.NewGuid(),
-                 UserId = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
-                 Type = "country",
-                 Value = "nl"
-             },
-             new UserClaim()
-             {
-                 Id = Guid.NewGuid(),
-                 UserId = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
-                 Type = "role",
-                 Value = "FreeUser"
-             },
-             new UserClaim()
-             {
-                 Id = Guid.NewGuid(),
-                 UserId = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
-                 Type = "role",
-                 Value = "Player"
-             },
-             new UserClaim()
-             {
-                 Id = Guid.NewGuid(),
-                 UserId = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
-                 Type = "given_name",
-                 Value = "Emma"
-             },
-             new UserClaim()
-             {
-                 Id = Guid.NewGuid(),
-                 UserId = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
-                 Type = "family_name",
-                 Value = "Flagg"
-             }, 
-             new UserClaim()
-             {
-                 Id = Guid.NewGuid(),
-                 UserId = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
-                 Type = "country",
-                 Value = "be"
-             }, 
-             new UserClaim()
-             {
-                 Id = Guid.NewGuid(),
-                 UserId = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
-                 Type = "role",
-                 Value = "PayingUser"
-             },
-             new UserClaim()
-             {
-                 Id = Guid.NewGuid(),
-                 UserId = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
-                 Type = "role",
-                 Value = "QuizMaster"
-             },
-             new UserClaim()
-             {
-                 Id = Guid.NewGuid(),
-                 UserId = new Guid("A120FD96-1DEA-4922-8403-289E5F2DBB6A"),
-                 Type = "given_name",
-                 Value = "Admin"
-             },
-             new UserClaim()
-             {
-                 Id = Guid.NewGuid(),
-                 UserId = new Guid("A120FD96-1DEA-4922-8403-289E5F2DBB6A"),
-                 Type = "family_name",
-                 Value = "Flagg"
-             },
-             new UserClaim()
-             {
-                 Id = Guid.NewGuid(),
-                 UserId = new Guid("A120FD96-1DEA-4922-8403-289E5F2DBB6A"),
-                 Type = "country",
-                 Value = "nl"
-             },
-             new UserClaim()
-             {
-                 Id = Guid.NewGuid(),
-                 UserId = new Guid("A120FD96-1DEA-4922-8403-289E5F2DBB6A"),
-                 Type = "role",
-                 Value = "Owner"
-             },
-             new UserClaim()
-             {
-                 Id = Guid.NewGuid(),
-                 UserId = new Guid("A120FD96-1DEA-4922-8403-289E5F2DBB6A"),
-                 Type = "role",
-                 Value = "SecurityAdmin"
-             });
+            modelBuilder.Entity<AspNetUserClaim>().HasData(
+                new AspNetUserClaim()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
+                    Type = "given_name",
+                    Value = "David"
+                },
+                new AspNetUserClaim()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
+                    Type = "family_name",
+                    Value = "Flagg"
+                },
+                new AspNetUserClaim()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
+                    Type = "country",
+                    Value = "nl"
+                },
+                new AspNetUserClaim()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
+                    Type = "role",
+                    Value = "FreeUser"
+                },
+                new AspNetUserClaim()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = new Guid("13229d33-99e0-41b3-b18d-4f72127e3971"),
+                    Type = "role",
+                    Value = "Player"
+                },
+                new AspNetUserClaim()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
+                    Type = "given_name",
+                    Value = "Emma"
+                },
+                new AspNetUserClaim()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
+                    Type = "family_name",
+                    Value = "Flagg"
+                },
+                new AspNetUserClaim()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
+                    Type = "country",
+                    Value = "be"
+                },
+                new AspNetUserClaim()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
+                    Type = "role",
+                    Value = "PayingUser"
+                },
+                new AspNetUserClaim()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = new Guid("96053525-f4a5-47ee-855e-0ea77fa6c55a"),
+                    Type = "role",
+                    Value = "QuizMaster"
+                }, 
+                new AspNetUserClaim()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = new Guid("A120FD96-1DEA-4922-8403-289E5F2DBB6A"),
+                    Type = "given_name",
+                    Value = "Admin"
+                },
+                new AspNetUserClaim()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = new Guid("A120FD96-1DEA-4922-8403-289E5F2DBB6A"),
+                    Type = "family_name",
+                    Value = "Flagg"
+                },
+                new AspNetUserClaim()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = new Guid("A120FD96-1DEA-4922-8403-289E5F2DBB6A"),
+                    Type = "country",
+                    Value = "nl"
+                },
+                new AspNetUserClaim()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = new Guid("A120FD96-1DEA-4922-8403-289E5F2DBB6A"),
+                    Type = "role",
+                    Value = "Owner"
+                },
+                new AspNetUserClaim()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = new Guid("A120FD96-1DEA-4922-8403-289E5F2DBB6A"),
+                    Type = "role",
+                    Value = "SecurityAdmin"
+                });
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

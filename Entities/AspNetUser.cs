@@ -3,9 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuizTower.IDP.Entities
 {
-    [Table("Users", Schema = "Identity")]
-    public class User : IConcurrencyAware
+    [Table("AspNetUsers", Schema = "Identity")]
+    public class AspNetUser : IConcurrencyAware
     {
+        [ConcurrencyCheck]
+        [Column("ConcurrencyStamp", Order = 0)]
+        public string ConcurrencyStamp { get; set; } = Guid.NewGuid().ToString();
+
         [Key]
         public Guid Id { get; set; }
 
@@ -30,11 +34,11 @@ namespace QuizTower.IDP.Entities
 
         public DateTime SecurityCodeExpirationDate { get; set; }
 
-        [ConcurrencyCheck]
-        public string ConcurrencyStamp { get; set; } = Guid.NewGuid().ToString();
-
-        public ICollection<UserClaim> Claims { get; set; } = new List<UserClaim>();
-        public ICollection<UserLogin> Logins { get; set; } = new List<UserLogin>();
-        public ICollection<UserSecret> Secrets { get; set; } = new List<UserSecret>();
+        [InverseProperty("AspNetUser")]
+        public ICollection<AspNetUserClaim> Claims { get; set; } = new List<AspNetUserClaim>();
+        [InverseProperty("AspNetUser")]
+        public ICollection<AspNetUserLogin> Logins { get; set; } = new List<AspNetUserLogin>();
+        [InverseProperty("AspNetUser")]
+        public ICollection<AspNetUserSecret> Secrets { get; set; } = new List<AspNetUserSecret>();
     }
 }

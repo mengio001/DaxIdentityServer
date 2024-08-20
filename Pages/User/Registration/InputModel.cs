@@ -39,7 +39,9 @@ namespace QuizTower.IDP.Pages.User.Registration
 
         public SelectList CountryCodes { get; set; } =
             new(new[] {
+                    new { Id = "nl", Value = "Nederland" },
                     new { Id = "be", Value = "Belgium" },
+                    new { Id = "uk", Value = "United Kingdom" },
                     new { Id = "us", Value = "United States of America" },
                     new { Id = "in", Value = "India" } },
                 "Id",

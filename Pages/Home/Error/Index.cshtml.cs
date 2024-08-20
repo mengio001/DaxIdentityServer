@@ -4,6 +4,7 @@
 using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using QuizTower.IDP.Util;
 
 namespace QuizTower.IDP.Pages.Home.Error;
 
@@ -30,7 +31,7 @@ public class Index : PageModel
         {
             View.Error = message;
 
-            if (!_environment.IsDevelopment())
+            if (!_environment.IsDevelopment() || !_environment.IsTest())
             {
                 // only show in development
                 message.ErrorDescription = null;

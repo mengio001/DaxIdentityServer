@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace QuizTower.IDP.Migrations.PersistedGrantDb
 {
     [DbContext(typeof(PersistedGrantDbContext))]
-    [Migration("20240614013439_InitialPersistedGrantDbContext")]
+    [Migration("20240619003737_InitialPersistedGrantDbContext")]
     partial class InitialPersistedGrantDbContext
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace QuizTower.IDP.Migrations.PersistedGrantDb
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.5")
+                .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);

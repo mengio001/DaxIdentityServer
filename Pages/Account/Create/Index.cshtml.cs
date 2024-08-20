@@ -21,9 +21,7 @@ public class Index : PageModel
     [BindProperty]
     public InputModel Input { get; set; } = default!;
 
-    public Index(
-        IIdentityServerInteractionService interaction,
-        TestUserStore? users = null)
+    public Index(IIdentityServerInteractionService interaction, TestUserStore? users = null)
     {
         // this is where you would plug in your own custom identity management library (e.g. ASP.NET Identity)
         _users = users ?? throw new InvalidOperationException("Please call 'AddTestUsers(TestUsers.Users)' on the IIdentityServerBuilder in Startup or remove the TestUserStore from the AccountController.");
