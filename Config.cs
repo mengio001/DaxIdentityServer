@@ -3,6 +3,7 @@ using Duende.IdentityServer.Models;
 using QuizTower.IDP.Util;
 using Serilog;
 using static QuizTower.IDP.Config;
+using static System.Net.WebRequestMethods;
 
 namespace QuizTower.IDP;
 
@@ -186,8 +187,7 @@ public static class Config
                     "towerofquizzesapi.write",
                     "towerofquizzesbffapi.read",
                     "towerofquizzesbffapi.write",
-                    "offline_access",
-                    "api"
+                    "offline_access"
                 },
                 ClientSecrets =
                 {
@@ -210,8 +210,8 @@ public static class Config
                 {
                     "https://localhost:44365/signin-oidc"
                 },
-                //FrontChannelLogoutUri = "https://localhost:44365/signout-oidc",
-                BackChannelLogoutUri = "https://localhost:44365/account/backchannel",
+                FrontChannelLogoutUri = "https://localhost:44365/signout-oidc", // Note: The FrontChannelLogoutUri is designed to function within an iframe (client-side), which must be present and available in frontend web browsers for proper functionality.
+                BackChannelLogoutUri = "https://localhost:44365/account/backchannel", // Note: The BackChannelLogoutUri operates on the server-side, where the logout process can be executed.
                 PostLogoutRedirectUris =
                 {
                     "https://localhost:44365/signout-callback-oidc"
@@ -227,14 +227,13 @@ public static class Config
                     "towerofquizzesapi.write",
                     "towerofquizzesbffapi.read",
                     "towerofquizzesbffapi.write",
-                    "offline_access",
-                    "api"
+                    "offline_access"
                 },
                 ClientSecrets =
                 {
                     new Secret("bffclientsecret".Sha256())
                 },
-                RequireConsent = true
+                RequireConsent = false
             }
         };
     }
