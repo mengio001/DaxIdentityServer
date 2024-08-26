@@ -77,24 +77,25 @@
 
 |               | CODE | TEST | DEVOPS | USER STORIES AAN GEWERKT                                     |
 | ------------- | ---- | ---- | ------ | ------------------------------------------------------------ |
-| Naam Student1 | 😀    | 👎    | 👎      | - [As a A I want to B so that C](link-to-relevant-commit) <br> - [As a A I want to B so that C](link-to-relevant-commit) |
-| Naam Student2 | 😀    | 😀    | 😀      | - [As a A I want to B so that C](link-to-relevant-commit) <br> - [As a A I want to B so that C](link-to-relevant-commit) |
-
+| Ozkan Mengi   | 😀    | 👎    | 😀      | - [As an administrator, I want to manage users (add, edit, delete) to maintain the user database](https://gitlab.fdmci.hva.nl/project-se-dt/2324/team8/UserManagement/-/merge_requests/4/) <br> - [Create an Angular client app with BFF (Backend for Frontend) and API.](https://gitlab.fdmci.hva.nl/project-se-dt/2324/team8/QuizTowerPlatform/-/merge_requests/4/commits) <br> - [As a player, I want to start, play, and complete a quiz](https://gitlab.fdmci.hva.nl/project-se-dt/2324/team8/QuizTowerPlatform/-/commits/TQ-9?ref_type=heads) <br> - [Writing automated test cases - Test-Driven Development (TDD)](https://gitlab.fdmci.hva.nl/project-se-dt/2324/team8/DevOps/-/issues/8) <br> - [Writing/creating end-to-end test cases - Behavioral-Driven Development (BDD)](https://gitlab.fdmci.hva.nl/project-se-dt/2324/team8/DevOps/-/issues/6) |
 
 
 ### Naam Ozkan Mengi
 
 | Focus 1      | Focus 2    | Focus 3         | Focus 4 |
 | ------------ | ---------- | --------------- | ------- |
-| DB migration | Formatting | Connect BE - FE | Bugs    |
+| UserManagement BackendWebApi and SecurityPolicy for admin | QuizTowerPlatform backend, bff and frontend (SPA) | BFF Microsoft YARP proxy | Bugs    |
 
 ##### What went well:
 
- - Veel bugs opgelost.
+ - Usermanagement clientapp afmaken waarbij communicatie via BackendWebApi adapter ging goed. <br />
+ - BFF YARP uitzoeken en configuren nam tijd maar uiteindelijk is het goed gegaan. <br />
+ - Begin maken aan Quiz GamePlay ging ook wel alleen de kleine details zoals Quiz Resultaat neemt toch veel tijd in. <br />
+ - Ik heb voor nu simpel test scripts gemaakt, waardoor het goed ging. Complexe test script heb ik overgeslagen omdat ik alsnog in tijdnood kwam, wegens groot enterprise-architectuur op te zetten. <br />
+
 
 ##### (Even) better if:
 
-- camelCase code conventions toepassen.
-- Logica testen en geen getters en setters
-- Rubric eerst doornemen en code doornemen voor de Code Review in te gaan.
+- Logout config werkt nog niet zo goed met proxy. Dit kan beter en hiervoor heb ik al nieuwe story gemaakt voor uitzoeken en oplossen. <br />
+- Ik heb in code soms voor snelheid TODO: aangemaakt alleen moet ook nog op backlog gezet worden zodat opgepakt kan worden in toekomst. <br />
 
