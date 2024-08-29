@@ -159,44 +159,6 @@ public static class Config
             },
             new Client()
             {
-                ClientName = "Tower of Quizzes",
-                ClientId = "towerofquizzesplatform",
-                AllowedGrantTypes = GrantTypes.Code,
-                AccessTokenType = AccessTokenType.Reference,
-                AllowOfflineAccess = true,
-                AbsoluteRefreshTokenLifetime = 3600 * 24 * 30,
-                SlidingRefreshTokenLifetime = 3600 * 24 * 15,
-                UpdateAccessTokenClaimsOnRefresh = true,
-                AccessTokenLifetime = 3600,
-                RedirectUris =
-                {
-                    "https://localhost:44355/signin-oidc"
-                },
-                FrontChannelLogoutUri = "https://localhost:44355/signout-oidc",
-                PostLogoutRedirectUris =
-                {
-                    "https://localhost:44355/signout-callback-oidc"
-                },
-                AllowedScopes =
-                {
-                    IdentityServerConstants.StandardScopes.OpenId,
-                    IdentityServerConstants.StandardScopes.Profile,
-                    "roles",
-                    "country",
-                    "towerofquizzesapi.read",
-                    "towerofquizzesapi.write",
-                    "towerofquizzesbffapi.read",
-                    "towerofquizzesbffapi.write",
-                    "offline_access"
-                },
-                ClientSecrets =
-                {
-                    new Secret("secret".Sha256())
-                },
-                RequireConsent = true
-            },
-            new Client()
-            {
                 ClientName = "Tower of Quizzes BFF Angular SPA",
                 ClientId = "towerofquizzesbff",
                 AllowedGrantTypes = GrantTypes.Code,
