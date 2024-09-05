@@ -33,18 +33,18 @@ internal static class HostingExtensions
             iis.AutomaticAuthentication = false;
         });
 
-        //////var options = new DefaultAzureCredentialOptions
-        //////{
-        //////    AuthorityHost = AzureAuthorityHosts.AzurePublicCloud,
-        //////    TenantId = "5692e72c-b118-45bb-8575-47c1c00b31ed"
-        //////};
-        //////// note: AddDataProtection key will be stored in Azure Blob Storage, and we'll protect it with a key stored in KeyVault.
-        //////// wiki: https://learn.microsoft.com/en-us/aspnet/core/security/data-protection/configuration/overview?view=aspnetcore-8.0
-        //////var azureCredential = new DefaultAzureCredential(options);
+        var options = new DefaultAzureCredentialOptions
+        {
+            AuthorityHost = AzureAuthorityHosts.AzurePublicCloud,
+            TenantId = "5692e72c-b118-45bb-8575-47c1c00b31ed"
+        };
+        // note: AddDataProtection key will be stored in Azure Blob Storage, and we'll protect it with a key stored in KeyVault.
+        // wiki: https://learn.microsoft.com/en-us/aspnet/core/security/data-protection/configuration/overview?view=aspnetcore-8.0
+        var azureCredential = new DefaultAzureCredential(options);
 
-        //////builder.Services.AddDataProtection()
-        //////    .PersistKeysToAzureBlobStorage(new Uri(builder.Configuration["DataProtection:Keys"]), azureCredential)
-        //////    .ProtectKeysWithAzureKeyVault(new Uri(builder.Configuration["DataProtection:ProtectionKeyForKeys"]), azureCredential);
+        builder.Services.AddDataProtection()
+            .PersistKeysToAzureBlobStorage(new Uri(builder.Configuration["DataProtection:Keys"]), azureCredential)
+            .ProtectKeysWithAzureKeyVault(new Uri(builder.Configuration["DataProtection:ProtectionKeyForKeys"]), azureCredential);
 
         // Instead of CertificateClient I am going to use SecretClient to get secrets from KeyVault (private and public to support signingCertificate.
         // GetCertificate() -> With this call we will get certificate info and public, with public key we can validate a signature or encrypt something.
@@ -58,10 +58,10 @@ internal static class HostingExtensions
         // - key resource (private key)
         // - secret resource (full certificate: certificate resource and private key)
 
-        //////var secretClient = new SecretClient(new Uri(builder.Configuration["KeyVault:RootUri"]), azureCredential);
-        //////var secretResponse = secretClient.GetSecret(builder.Configuration["KeyVault:CertificateName"]);
+        var secretClient = new SecretClient(new Uri(builder.Configuration["KeyVault:RootUri"]), azureCredential);
+        var secretResponse = secretClient.GetSecret(builder.Configuration["KeyVault:CertificateName"]);
 
-        //////var signingCertificate = new X509Certificate2(Convert.FromBase64String(secretResponse.Value.Value), (string)null, X509KeyStorageFlags.MachineKeySet);
+        var signingCertificate = new X509Certificate2(Convert.FromBase64String(secretResponse.Value.Value), (string)null, X509KeyStorageFlags.MachineKeySet);
 
         builder.Services.AddRazorPages();
 
@@ -86,11 +86,11 @@ internal static class HostingExtensions
                 //options.LicenseKey = "";
             })
             .AddProfileService<LocalUserProfileService>()
-            // Note: AddInMemory is replaced by PersistedGrantDb MSSQL
-            //.AddInMemoryIdentityResources(Config.IdentityResources)
-            //.AddInMemoryApiResources(Config.ApiResources)
-            //.AddInMemoryApiScopes(Config.ApiScopes)
-            //.AddInMemoryClients(Config.Clients)
+            ////// Note: AddInMemory is replaced by PersistedGrantDb MSSQL
+            ////.AddInMemoryIdentityResources(Config.IdentityResources)
+            ////.AddInMemoryApiResources(Config.ApiResources)
+            ////.AddInMemoryApiScopes(Config.ApiScopes)
+            ////.AddInMemoryClients(Config.Clients)
             .AddConfigurationStore(options =>
             {
                 options.ConfigureDbContext = optionsBuilder =>
@@ -106,8 +106,8 @@ internal static class HostingExtensions
                         builder.Configuration.GetConnectionString("IdentityServerDBConnection"),
                         sqlOptions => sqlOptions.MigrationsAssembly(migrationsAssembly));
                 options.EnableTokenCleanup = true; // -> this is set to false by default. By setting it to true, we ensure that expired persisted tokens are automatically cleaned up, that ensures that our database won't grow out of control.
-            });
-            //////.AddSigningCredential(signingCertificate);
+            })
+            .AddSigningCredential(signingCertificate);
 
         ////////builder.Services.AddAuthentication()
         ////////    .AddOpenIdConnect("AAD", "Microsoft Entra ID", options =>
