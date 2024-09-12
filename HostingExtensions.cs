@@ -75,8 +75,10 @@ internal static class HostingExtensions
                 builder.Configuration.GetConnectionString("DefaultConnection"));
         });
 
+        builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        
         var migrationsAssembly = typeof(Program).GetTypeInfo().Assembly.GetName().Name;
-
+        
         builder.Services.AddIdentityServer(options =>
             {
                 // This will emit an aud claim in the issuer_name/ resources format. If you need more control of the aud claim, use API resources.
