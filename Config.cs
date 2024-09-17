@@ -101,24 +101,61 @@ public static class Config
                          AllowedCorsOrigins = { config.Host },
                          AllowOfflineAccess = config.AllowOfflineAccess ?? false,
                          AllowedScopes = config.AllowedScopes ?? new[] { IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile },
-                         PostLogoutRedirectUris = new[] { $"{config.Host}/" }
+                         PostLogoutRedirectUris = new[] { $"{config.Host}/" },
+                         AccessTokenType = AccessTokenType.Reference
                      }))
         {
             yield return e;
         }
 
-        // GetHardcodedClients
-        foreach (var client in GetHardcodedClients())
+        foreach (var e in configuration.GetSection("Clients").GetChildren()
+                     .Select(client => client.Get<ClientConfig>())!
+                     .ValidateClients(env)
+                     .Select(config =>
+                     {
+                         var c = new Client();
+                         c.Enabled = config.EnabledBool;
+                         c.ClientId = config.ClientId ?? c.ClientId;
+                         c.ClientName = config.ClientName ?? c.ClientName;
+                         c.ClientSecrets = config.ClientSecrets?.Select(s => new Secret(s.Sha256()))?.ToList() ?? c.ClientSecrets;
+                         c.RequireClientSecret = config.RequireClientSecret ?? c.RequireClientSecret;
+                         c.AllowedGrantTypes = config.AllowedGrantTypes ?? c.AllowedGrantTypes;
+                         c.RequirePkce = config.RequirePkce ?? c.RequirePkce;
+                         c.RedirectUris = config.RedirectUris ?? c.RedirectUris;
+                         c.AllowedCorsOrigins = config.AllowedCorsOrigins ?? c.AllowedCorsOrigins;
+                         c.AllowedScopes = config.AllowedScopes ?? c.AllowedScopes;
+                         c.AllowOfflineAccess = config.AllowOfflineAccess ?? c.AllowOfflineAccess;
+                         c.AbsoluteRefreshTokenLifetime = config.AbsoluteRefreshTokenLifetime ?? c.AbsoluteRefreshTokenLifetime;
+                         c.AccessTokenLifetime = config.AccessTokenLifetime ?? c.AccessTokenLifetime;
+                         c.IdentityTokenLifetime = config.IdentityTokenLifetime ?? c.IdentityTokenLifetime;
+                         c.PostLogoutRedirectUris = config.PostLogoutRedirectUris ?? c.PostLogoutRedirectUris;
+                         c.UserSsoLifetime = 60 * 60 * 12; //12 uur
+                         c.Properties = new Dictionary<string, string>();
+
+                         if (!string.IsNullOrEmpty(config.ClientHomeUrl))
+                             c.Properties["ClientHomeUrl"] = config.ClientHomeUrl;
+                         c.UpdateAccessTokenClaimsOnRefresh = true;
+                         c.RefreshTokenUsage = TokenUsage.OneTimeOnly;
+                         c.AccessTokenType = AccessTokenType.Reference;
+
+                         return c;
+                     }))
         {
-            yield return client;
+             yield return e;
         }
+
+        ////// Note: GetHardcodedClients instead of AppSettings, for debug purpose.
+        ////foreach (var client in GetHardcodedClients())
+        ////{
+        ////    yield return client;
+        ////}
     }
 
     private static IEnumerable<Client> GetHardcodedClients()
     {
         return new List<Client>
         {
-            new Client() 
+            new Client()
             {
                 ClientName = "User Management System",
                 ClientId = "usermanagementclient",
@@ -242,7 +279,6 @@ public static class Config
     }
 }
 
-
 public static class ClientExtensions
 {
     public static IEnumerable<Config.ClientConfig> ValidateClients(this IEnumerable<Config.ClientConfig> clients, IWebHostEnvironment env)
@@ -285,8 +321,8 @@ public static class ClientExtensions
             if (client.AllowedGrantTypes.Select(gt => gt.ToLower()).Any(gt => gt == "authorization_code"))
             {
                 if (client.AllowOfflineAccess is null or false)
-                Log.Logger.Warning($"Warning: in the appsettings configuration for client '{client.ClientId}' " +
-                                       "AllowOfflineAccess is disabled, so refresh tokens cannot be used.");
+                    Log.Logger.Warning($"Warning: in the appsettings configuration for client '{client.ClientId}' " +
+                                           "AllowOfflineAccess is disabled, so refresh tokens cannot be used.");
 
                 if (!client.AllowedScopes.Contains("openid"))
                     throw new InvalidClientConfigException(client.ClientId, "Scope 'openid' is missing");
@@ -312,8 +348,7 @@ public static class ClientExtensions
 
 public class InvalidClientConfigException : Exception
 {
-    public InvalidClientConfigException(string clientId, string message) : base(
-        $"Invalid configuration for client '{clientId}': {message}")
+    public InvalidClientConfigException(string clientId, string message) : base($"Invalid configuration for client '{clientId}': {message}")
     {
     }
 }
