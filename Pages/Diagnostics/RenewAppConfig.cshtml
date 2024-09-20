@@ -1,0 +1,20 @@
+﻿@page
+@model QuizTower.IDP.Pages.Diagnostics.RenewAppConfigModel
+@{
+    ViewData["Title"] = "Renew App Config";
+}
+
+<h2>Renew App Configuration</h2>
+
+<p>
+    Click the button below to refresh the application configuration and seed data.
+</p>
+
+<form method="post">
+    <button type="submit" class="btn btn-primary">Renew Config</button>
+</form>
+
+@if (Model.Message != null)
+{
+    <p class="alert alert-success">@Model.Message</p>
+}

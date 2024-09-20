@@ -4,6 +4,8 @@ using QuizTower.IDP;
 using QuizTower.IDP.Util;
 using Serilog;
 using Azure.Identity;
+using AutoMapper;
+using Duende.IdentityServer.EntityFramework.DbContexts;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -40,7 +42,18 @@ try
         .ConfigurePipeline();
 
     // seed the configuration database
-    SeedData.EnsureSeedData(app);
+    // SeedData.EnsureSeedData(app);
+
+    using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+        var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+        var environment = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
+        var mapper = scope.ServiceProvider.GetRequiredService<IMapper>();
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<SeedDataWebHookBased>>();
+
+        SeedDataWebHookBased.EnsureSeedData(context, configuration, environment, mapper, logger);
+    }
 
     app.Run();
 }
