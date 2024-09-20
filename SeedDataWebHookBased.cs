@@ -21,6 +21,9 @@ namespace QuizTower.IDP
                     {
                         var existingClient = context.Clients
                             .Include(c => c.RedirectUris)
+                            .Include(c => c.PostLogoutRedirectUris)
+                            .Include(c => c.AllowedCorsOrigins)
+                            .Include(c => c.ClientSecrets)
                             .FirstOrDefault(c => c.ClientId == client.ClientId);
 
                         if (existingClient == null)
@@ -36,6 +39,18 @@ namespace QuizTower.IDP
 
                             // Update Redirect URIs
                             UpdateClientRedirectUris(context, existingClient, clientEntity);
+
+                            // Update PostLogoutRedirectUris
+                            UpdateClientPostLogoutRedirectUris(context, existingClient, clientEntity);
+
+                            // Update FrontChannelLogoutUri
+                            UpdateClientFrontChannelLogoutUri(existingClient, clientEntity);
+
+                            // Update BackChannelLogoutUri
+                            UpdateClientBackChannelLogoutUri(existingClient, clientEntity);
+
+                            // Update AllowedCorsOrigins
+                            UpdateClientCorsOrigins(context, existingClient, clientEntity);
                         }
                     }
                     context.SaveChanges();
@@ -122,6 +137,68 @@ namespace QuizTower.IDP
                     existingClient.RedirectUris.Add(new Duende.IdentityServer.EntityFramework.Entities.ClientRedirectUri
                     {
                         RedirectUri = newUri.RedirectUri,
+                        ClientId = existingClient.Id
+                    });
+                }
+            }
+        }
+
+        private static void UpdateClientPostLogoutRedirectUris(ConfigurationDbContext context, Duende.IdentityServer.EntityFramework.Entities.Client existingClient, Duende.IdentityServer.EntityFramework.Entities.Client clientEntity)
+        {
+            foreach (var oldUri in existingClient.PostLogoutRedirectUris.ToList())
+            {
+                if (clientEntity.PostLogoutRedirectUris.All(r => r.PostLogoutRedirectUri != oldUri.PostLogoutRedirectUri))
+                {
+                    context.Remove(oldUri);
+                }
+            }
+
+            foreach (var newUri in clientEntity.PostLogoutRedirectUris)
+            {
+                if (existingClient.PostLogoutRedirectUris.All(r => r.PostLogoutRedirectUri != newUri.PostLogoutRedirectUri))
+                {
+                    existingClient.PostLogoutRedirectUris.Add(new Duende.IdentityServer.EntityFramework.Entities.ClientPostLogoutRedirectUri
+                    {
+                        PostLogoutRedirectUri = newUri.PostLogoutRedirectUri,
+                        ClientId = existingClient.Id
+                    });
+                }
+            }
+        }
+
+        private static void UpdateClientFrontChannelLogoutUri(Duende.IdentityServer.EntityFramework.Entities.Client existingClient, Duende.IdentityServer.EntityFramework.Entities.Client clientEntity)
+        {
+            if (existingClient.FrontChannelLogoutUri != clientEntity.FrontChannelLogoutUri)
+            {
+                existingClient.FrontChannelLogoutUri = clientEntity.FrontChannelLogoutUri;
+            }
+        }
+
+        private static void UpdateClientBackChannelLogoutUri(Duende.IdentityServer.EntityFramework.Entities.Client existingClient, Duende.IdentityServer.EntityFramework.Entities.Client clientEntity)
+        {
+            if (existingClient.BackChannelLogoutUri != clientEntity.BackChannelLogoutUri)
+            {
+                existingClient.BackChannelLogoutUri = clientEntity.BackChannelLogoutUri;
+            }
+        }
+
+        private static void UpdateClientCorsOrigins(ConfigurationDbContext context, Duende.IdentityServer.EntityFramework.Entities.Client existingClient, Duende.IdentityServer.EntityFramework.Entities.Client clientEntity)
+        {
+            foreach (var oldOrigin in existingClient.AllowedCorsOrigins.ToList())
+            {
+                if (clientEntity.AllowedCorsOrigins.All(r => r.Origin != oldOrigin.Origin))
+                {
+                    context.Remove(oldOrigin);
+                }
+            }
+
+            foreach (var newOrigin in clientEntity.AllowedCorsOrigins)
+            {
+                if (existingClient.AllowedCorsOrigins.All(r => r.Origin != newOrigin.Origin))
+                {
+                    existingClient.AllowedCorsOrigins.Add(new Duende.IdentityServer.EntityFramework.Entities.ClientCorsOrigin
+                    {
+                        Origin = newOrigin.Origin,
                         ClientId = existingClient.Id
                     });
                 }

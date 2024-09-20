@@ -129,11 +129,18 @@ public static class Config
                          c.AccessTokenLifetime = config.AccessTokenLifetime ?? c.AccessTokenLifetime;
                          c.IdentityTokenLifetime = config.IdentityTokenLifetime ?? c.IdentityTokenLifetime;
                          c.PostLogoutRedirectUris = config.PostLogoutRedirectUris ?? c.PostLogoutRedirectUris;
+
+                         // Add FrontChannelLogoutUri and BackChannelLogoutUri
+                         c.FrontChannelLogoutUri = config.FrontChannelLogoutUri ?? c.FrontChannelLogoutUri;
+                         c.BackChannelLogoutUri = config.BackChannelLogoutUri ?? c.BackChannelLogoutUri;
+
+                         // Additional properties
                          c.UserSsoLifetime = 60 * 60 * 12; //12 uur
                          c.Properties = new Dictionary<string, string>();
 
                          if (!string.IsNullOrEmpty(config.ClientHomeUrl))
                              c.Properties["ClientHomeUrl"] = config.ClientHomeUrl;
+
                          c.UpdateAccessTokenClaimsOnRefresh = true;
                          c.RefreshTokenUsage = TokenUsage.OneTimeOnly;
                          c.AccessTokenType = AccessTokenType.Reference;
@@ -268,6 +275,8 @@ public static class Config
         public int? AccessTokenLifetime { get; set; }
         public int? IdentityTokenLifetime { get; set; }
         public string[] PostLogoutRedirectUris { get; set; }
+        public string FrontChannelLogoutUri { get; set; }
+        public string BackChannelLogoutUri { get; set; }
         public string Enabled { get; set; }
         public bool EnabledBool => "true".Equals(Enabled, StringComparison.InvariantCultureIgnoreCase);
     }
