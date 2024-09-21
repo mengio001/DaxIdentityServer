@@ -101,7 +101,7 @@ public static class Config
                          AllowedCorsOrigins = { config.Host },
                          AllowOfflineAccess = config.AllowOfflineAccess ?? false,
                          AllowedScopes = config.AllowedScopes ?? new[] { IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile },
-                         PostLogoutRedirectUris = new[] { $"{config.Host}/" },
+                         PostLogoutRedirectUris = config.PostLogoutRedirectUris ?? new[] { $"{config.Host}/" },
                          AccessTokenType = AccessTokenType.Reference
                      }))
         {
@@ -256,6 +256,7 @@ public static class Config
         public bool? AllowOfflineAccess { get; set; }
         public string Enabled { get; set; }
         public bool EnabledBool => "true".Equals(Enabled, StringComparison.InvariantCultureIgnoreCase);
+        public string[] PostLogoutRedirectUris { get; set; }
     }
 
     public class ClientConfig
