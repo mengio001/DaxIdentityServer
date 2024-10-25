@@ -43,8 +43,8 @@ msbuild.wrn
 .vs/
 
 # SonarQube ignore files
-docker-compose.yml
-sonar-project.properties
+*docker-compose.yml
+*sonar-project.properties
 *.sonarqube
 .sonarqube/
 *.scannerwork

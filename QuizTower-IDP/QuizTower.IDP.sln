@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizTower.IDP", "QuizTower.IDP.csproj", "{789E2992-A3E3-4391-93F4-27D5D82914C2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizTower.IDP.Test", "..\QuizTower-IDP.Test\QuizTower.IDP.Test.csproj", "{836578B8-6512-416F-B58E-1AFF3FD65B97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuizTower.IDP.Test", "..\QuizTower-IDP.Test\QuizTower.IDP.Test.csproj", "{EC3D3906-B85D-45C6-B175-7A2263C1E5D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{789E2992-A3E3-4391-93F4-27D5D82914C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{789E2992-A3E3-4391-93F4-27D5D82914C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{789E2992-A3E3-4391-93F4-27D5D82914C2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{836578B8-6512-416F-B58E-1AFF3FD65B97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{836578B8-6512-416F-B58E-1AFF3FD65B97}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{836578B8-6512-416F-B58E-1AFF3FD65B97}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{836578B8-6512-416F-B58E-1AFF3FD65B97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC3D3906-B85D-45C6-B175-7A2263C1E5D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC3D3906-B85D-45C6-B175-7A2263C1E5D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC3D3906-B85D-45C6-B175-7A2263C1E5D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC3D3906-B85D-45C6-B175-7A2263C1E5D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
