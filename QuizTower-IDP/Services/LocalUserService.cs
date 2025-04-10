@@ -17,7 +17,7 @@ namespace QuizTower.IDP.Services
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _passwordHasher = passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
-            _userManager = userManager ?? throw new ArgumentNullException(nameof(passwordHasher));
+            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
 
         public async Task<AspNetUser> FindUserByExternalProviderAsync(string provider, string providerIdentityKey)
@@ -210,6 +210,7 @@ namespace QuizTower.IDP.Services
 
             aspNetUserToAdd.SecurityCode = Convert.ToBase64String(RandomNumberGenerator.GetBytes(128));
             aspNetUserToAdd.SecurityCodeExpirationDate = DateTime.UtcNow.AddHours(1);
+            aspNetUserToAdd.PasswordHash = _passwordHasher.HashPassword(aspNetUserToAdd, password);
 
             var result = await _userManager.CreateAsync(aspNetUserToAdd, password);
             if (!result.Succeeded)

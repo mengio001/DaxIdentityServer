@@ -96,13 +96,14 @@ public static class Config
                          ClientSecrets = { new Secret(config.Secret.Sha256()) },
                          AllowedGrantTypes = config.AllowedGrantTypes.Distinct().ToArray(),
                          RequireClientSecret = !string.IsNullOrEmpty(config.Secret),
-                         RequirePkce = true,
+                         RequirePkce = config.RequirePkce ?? true,
                          RedirectUris = { config.RedirectUri },
                          AllowedCorsOrigins = { config.Host },
                          AllowOfflineAccess = config.AllowOfflineAccess ?? false,
                          AllowedScopes = config.AllowedScopes ?? new[] { IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile },
                          PostLogoutRedirectUris = config.PostLogoutRedirectUris ?? new[] { $"{config.Host}/" },
-                         AccessTokenType = AccessTokenType.Reference
+                         AccessTokenType = AccessTokenType.Reference,
+                         RequireConsent = false
                      }))
         {
             yield return e;
@@ -248,6 +249,7 @@ public static class Config
     {
         public string ClientId { get; set; }
         public string ClientName { get; set; }
+        public bool? RequirePkce { get; set; }
         public string Host { get; set; }
         public string RedirectUri { get; set; }
         public string Secret { get; set; }

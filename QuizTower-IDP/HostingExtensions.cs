@@ -98,11 +98,15 @@ internal static class HostingExtensions
 
         builder.Services.AddIdentityServer(options =>
         {
+            // Note: This enables the automatic inclusion of the "aud" (audience) claim in access tokens.
+            // This is recommended when validating tokens in APIs that expect an audience claim.
             options.EmitStaticAudienceClaim = true;
         })
         .AddProfileService<LocalUserProfileService>()
         .AddConfigurationStore(options =>
         {
+            // Note: This DbContext manages all configuration-related data for IdentityServer: Clients, ApiResources, ApiScopes, IdentityResources.
+            // These define what clients are allowed, what APIs exist, and what claims/scopes are available.
             options.ConfigureDbContext = optionsBuilder =>
                 optionsBuilder.UseSqlServer(
                     builder.Configuration.GetConnectionString("IdentityServerDBConnection"),
@@ -111,10 +115,13 @@ internal static class HostingExtensions
         .AddConfigurationStoreCache()
         .AddOperationalStore(options =>
         {
+            // Note: This DbContext stores operational data related to the runtime behavior of IdentityServer: PersistedGrants (authorization codes, refresh tokens, etc.), DeviceCodes (for device flow), and ServerSideSessions (for server-managed sessions).
             options.ConfigureDbContext = optionsBuilder =>
                 optionsBuilder.UseSqlServer(
                     builder.Configuration.GetConnectionString("IdentityServerDBConnection"),
                     sqlOptions => sqlOptions.MigrationsAssembly(migrationsAssembly));
+
+            // Note: Enables automatic cleanup of expired tokens, codes, and sessions.
             options.EnableTokenCleanup = true;
         });
   

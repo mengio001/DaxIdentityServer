@@ -50,6 +50,10 @@ msbuild.wrn
 *.scannerwork
 .scannerwork/
 
+# Cypress files
+cypress.env.json
+.env
+
 
 .DS_STORE
 
