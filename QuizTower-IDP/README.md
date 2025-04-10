@@ -57,14 +57,6 @@ The most flexible and standards-compliant OpenID Connect and OAuth 2.x framework
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Built With
-* [![Duende.IdentityServer][Duende.IdentityServer.com]][Duende.IdentityServer-url] Duende.IdentityServer
-* [![Angular][Angular.io]][Angular-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 ## Getting Started
 
 ### Prerequisites
@@ -105,18 +97,13 @@ Distributed under the MIT License. See [detailed feature matrix](https://duendes
 
 ## Contact
 
-Ozkan Mengi - [#/in/mengio1990](https://www.linkedin.com/in/mengio1990/) - ozkan.mengi@hva.nl
-
-Project Link: [https://gitlab.fdmci.hva.nl/project-se-dt/2324/team8/QuizTower.IDP](https://gitlab.fdmci.hva.nl/project-se-dt/2324/team8/QuizTower.IDP)
+Ozkan Mengi - [#/in/mengio1990](https://www.linkedin.com/in/mengio1990/) - o.mengi@timelessmedia.nl - timelessmedia.nl
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 ## Acknowledgments
 * Duende Software
-* Angular
-* Bootstrap
-* JQuery
 
 * 
 <!-- MARKDOWN LINKS & IMAGES -->
