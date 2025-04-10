@@ -18,7 +18,7 @@
     <img src="https://avatars.githubusercontent.com/u/67868775?s=48&v=4" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Tower of Quizzes deploy test 02</h3>
+  <h3 align="center">Tower of Quizzes</h3>
 
   <p align="center">
     <strong>Tower of Quizzes!</strong> is a game-based learning platform that brings engagement and fun to 1+ billion players every year at school, at work, and at home.
