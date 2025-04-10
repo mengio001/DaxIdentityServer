@@ -21,7 +21,7 @@
   <h3 align="center">Tower of Quizzes</h3>
 
   <p align="center">
-    <strong>Tower of Quizzes!</strong> is a game-based learning platform that brings engagement and fun to 1+ billion players every year at school, at work, and at home.
+    <strong>Tower of Quizzes!</strong> is a game-based learning platform that brings engagement and fun to 1+ billion players every year at work, and at home.
     <br />
   </p>
 </div>
