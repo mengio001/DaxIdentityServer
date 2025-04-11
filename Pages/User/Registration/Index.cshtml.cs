@@ -51,7 +51,7 @@ namespace QuizTower.IDP.Pages.User.Registration
             }
 
             // create user & claims
-            var userToCreate = new Entities.User
+            var userToCreate = new Entities.AspNetUser
             {
                 UserName = Input.UserName,
                 Subject = Guid.NewGuid().ToString(),
@@ -59,19 +59,19 @@ namespace QuizTower.IDP.Pages.User.Registration
                 Active = false
             };
 
-            userToCreate.Claims.Add(new Entities.UserClaim()
+            userToCreate.Claims.Add(new Entities.AspNetUserClaim()
             {
                 Type = "country",
                 Value = Input.Country
             });
 
-            userToCreate.Claims.Add(new Entities.UserClaim()
+            userToCreate.Claims.Add(new Entities.AspNetUserClaim()
             {
                 Type = JwtClaimTypes.GivenName,
                 Value = Input.GivenName
             });
 
-            userToCreate.Claims.Add(new Entities.UserClaim()
+            userToCreate.Claims.Add(new Entities.AspNetUserClaim()
             {
                 Type = JwtClaimTypes.FamilyName,
                 Value = Input.FamilyName
@@ -83,6 +83,7 @@ namespace QuizTower.IDP.Pages.User.Registration
             // ActivationLink without sending email but printing into console because, we don't have e-mail/exchange server to send emails.
             var activationLink = Url.PageLink("/user/activation/index", values: new { securityCode = userToCreate.SecurityCode });
 
+            // todo: building reactivate/resend 'SecurityCode', after 1 hour expired.
             Console.WriteLine($"activationLink: {activationLink}");
             return Redirect("~/User/ActivationCodeSent");
 

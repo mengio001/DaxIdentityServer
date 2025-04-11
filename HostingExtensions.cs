@@ -11,6 +11,7 @@ using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection;
+using QuizTower.IDP.Util;
 
 namespace QuizTower.IDP;
 
@@ -29,7 +30,7 @@ internal static class HostingExtensions
         builder.Services.Configure<IISServerOptions>(iis =>
         {
             iis.AuthenticationDisplayName = "Windows";
-            iis.AutomaticAuthentication = false; 
+            iis.AutomaticAuthentication = false;
         });
 
         var options = new DefaultAzureCredentialOptions
@@ -64,37 +65,39 @@ internal static class HostingExtensions
 
         builder.Services.AddRazorPages();
 
-        builder.Services.AddScoped<IPasswordHasher<Entities.User>, PasswordHasher<Entities.User>>();
+        builder.Services.AddScoped<IPasswordHasher<Entities.AspNetUser>, PasswordHasher<Entities.AspNetUser>>();
 
         builder.Services.AddScoped<ILocalUserService, LocalUserService>();
 
-        builder.Services.AddDbContext<IdentityDbContext>(options =>
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
         {
             options.UseSqlServer(
-                builder.Configuration.GetConnectionString("QuizTowerIdentityDbConnectionString"));
+                builder.Configuration.GetConnectionString("DefaultConnection"));
         });
 
+        builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        
         var migrationsAssembly = typeof(Program).GetTypeInfo().Assembly.GetName().Name;
-
-        builder.Services
-            .AddIdentityServer(options =>
+        
+        builder.Services.AddIdentityServer(options =>
             {
                 // This will emit an aud claim in the issuer_name/ resources format. If you need more control of the aud claim, use API resources.
                 // https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/api_scopes#authorization-based-on-scopes
                 options.EmitStaticAudienceClaim = true;
-                // In progress, I've sent email to 'contact@duendesoftware.com' for applying Duende Free Community Edition license key.
+                // In progress, I've emailed 'contact@duendesoftware.com' to apply for the Duende Free Community Edition license key.
                 //options.LicenseKey = "";
             })
             .AddProfileService<LocalUserProfileService>()
-            //.AddInMemoryIdentityResources(Config.IdentityResources)
-            //.AddInMemoryApiResources(Config.ApiResources)
-            //.AddInMemoryApiScopes(Config.ApiScopes)
-            //.AddInMemoryClients(Config.Clients)
+            ////// Note: AddInMemory is replaced by PersistedGrantDb MSSQL
+            ////.AddInMemoryIdentityResources(Config.IdentityResources)
+            ////.AddInMemoryApiResources(Config.ApiResources)
+            ////.AddInMemoryApiScopes(Config.ApiScopes)
+            ////.AddInMemoryClients(Config.Clients)
             .AddConfigurationStore(options =>
             {
                 options.ConfigureDbContext = optionsBuilder =>
                     optionsBuilder.UseSqlServer(
-                        builder.Configuration.GetConnectionString("IdentityServerDBConnectionString"),
+                        builder.Configuration.GetConnectionString("IdentityServerDBConnection"),
                         sqlOptions => sqlOptions.MigrationsAssembly(migrationsAssembly));
             })
             .AddConfigurationStoreCache()
@@ -102,29 +105,29 @@ internal static class HostingExtensions
             {
                 options.ConfigureDbContext = optionsBuilder =>
                     optionsBuilder.UseSqlServer(
-                        builder.Configuration.GetConnectionString("IdentityServerDBConnectionString"),
+                        builder.Configuration.GetConnectionString("IdentityServerDBConnection"),
                         sqlOptions => sqlOptions.MigrationsAssembly(migrationsAssembly));
                 options.EnableTokenCleanup = true; // -> this is set to false by default. By setting it to true, we ensure that expired persisted tokens are automatically cleaned up, that ensures that our database won't grow out of control.
             })
             .AddSigningCredential(signingCertificate);
 
-        builder.Services.AddAuthentication()
-            .AddOpenIdConnect("AAD", "Microsoft Entra ID", options =>
-            {
-                options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-                options.Authority = "https://login.microsoftonline.com/5692e72c-b118-45bb-8575-47c1c00b31ed/v2.0";
-                options.ClientId = "3aebc331-5ebd-4e8b-ad95-5d3276bb5c22";
-                options.ClientSecret = "ekP8Q~Umm.4AAyHUBzoPV.4vepJ2X6Foen2RAbjt";
-                options.ResponseType = "code";
-                options.CallbackPath = new PathString("/signin-aad/");
-                options.SignedOutCallbackPath = new PathString("/signout-aad/");
-                options.Scope.Add("email");
-                options.Scope.Add("offline_access");
-                options.SaveTokens = true;
-            });
+        ////////builder.Services.AddAuthentication()
+        ////////    .AddOpenIdConnect("AAD", "Microsoft Entra ID", options =>
+        ////////    {
+        ////////        options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+        ////////        options.Authority = "https://login.microsoftonline.com/5692e72c-b118-45bb-8575-47c1c00b31ed/v2.0";
+        ////////        options.ClientId = "3aebc331-5ebd-4e8b-ad95-5d3276bb5c22";
+        ////////        options.ClientSecret = "ekP8Q~Umm.4AAyHUBzoPV.4vepJ2X6Foen2RAbjt";
+        ////////        options.ResponseType = "code";
+        ////////        options.CallbackPath = new PathString("/signin-aad/");
+        ////////        options.SignedOutCallbackPath = new PathString("/signout-aad/");
+        ////////        options.Scope.Add("email");
+        ////////        options.Scope.Add("offline_access");
+        ////////        options.SaveTokens = true;
+        ////////    });
 
         builder.Services.AddAuthentication()
-            .AddFacebook("Facebook", options => 
+            .AddFacebook("Facebook", options =>
             {
                 options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
                 options.AppId = "784150890372035";
@@ -139,14 +142,14 @@ internal static class HostingExtensions
 
         return builder.Build();
     }
-    
+
     public static WebApplication ConfigurePipeline(this WebApplication app)
     {
         app.UseForwardedHeaders();
 
         app.UseSerilogRequestLogging();
-    
-        if (app.Environment.IsDevelopment())
+
+        if (app.Environment.IsDevelopment() || app.Environment.IsTest())
         {
             app.UseDeveloperExceptionPage();
         }
