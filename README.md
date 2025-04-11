@@ -38,7 +38,7 @@ dotnet run
 Once running, the IdentityServer UI will be available at:
 
 ```
-https://localhost:5001
+https://localhost:44300
 ```
 
 Use this as your authority URL for other DAX components (e.g., BFFs, APIs, SPAs).
