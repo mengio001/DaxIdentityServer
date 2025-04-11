@@ -480,4 +480,7 @@ Procfile          text
 # Prevents massive diffs from built files
 dist/*            binary
 
-
+# Ignore coverage reports and static HTML from language stats
+**/wwwroot/** linguist-vendored
+**/Test/CoverageReport/** linguist-generated
+**/*.html linguist-generated
