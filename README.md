@@ -1,4 +1,4 @@
-# 🔐 DAX IdentityServer
+# DAX IdentityServer
 
 **DAX IdentityServer** is a sandbox implementation of [Duende IdentityServer](https://duendesoftware.com/) designed for exploring and managing OAuth2 / OpenID Connect clients within a distributed architecture setup.
 
@@ -6,7 +6,7 @@ This repository is part of the **DAX (Distributed Architecture eXamples)** proje
 
 ---
 
-## 🎯 Purpose
+## Purpose
 
 This project makes it easy to:
 
@@ -17,17 +17,17 @@ This project makes it easy to:
 
 ---
 
-## 🧪 Key Features
+## Key Features
 
-- ✅ Sandbox-friendly setup using Duende IdentityServer
-- ✅ In-memory or JSON-based client/resource configuration
-- ✅ Optional custom user store and login logic
-- ✅ Ideal for testing BFF, SPA, and API auth scenarios
-- ✅ Fast local development with `dotnet run`
+- Sandbox-friendly setup using Duende IdentityServer
+- In-memory or JSON-based client/resource configuration
+- Optional custom user store and login logic
+- Ideal for testing BFF, SPA, and API auth scenarios
+- Fast local development with `dotnet run`
 
 ---
 
-## 🚀 Quickstart
+## Quickstart
 
 ```bash
 git clone https://github.com/mengio001/DaxIdentityServer.git
@@ -45,7 +45,7 @@ Use this as your authority URL for other DAX components (e.g., BFFs, APIs, SPAs)
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - [.NET 8](https://dotnet.microsoft.com/)
 - [Duende IdentityServer](https://duendesoftware.com/)
@@ -55,7 +55,7 @@ Use this as your authority URL for other DAX components (e.g., BFFs, APIs, SPAs)
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 | Folder / File                      | Purpose                              |
 |------------------------------------|--------------------------------------|
@@ -67,18 +67,18 @@ Use this as your authority URL for other DAX components (e.g., BFFs, APIs, SPAs)
 
 ---
 
-## 💡 Why "DAX"?
+## Why "DAX"?
 
 **DAX** stands for **Distributed Architecture eXamples**, a GitHub showcase of modular, sandboxed apps simulating real-world system architecture using microservices and modern protocols.
 
 ---
 
-## 📜 License
+## License
 
 This sandbox project is intended for **educational and experimental** purposes only. It uses Duende IdentityServer under the terms of their [license](https://duendesoftware.com/license).
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 This project is part of a personal exploration. Suggestions or forks welcome! Just keep in mind the educational purpose of the repository.

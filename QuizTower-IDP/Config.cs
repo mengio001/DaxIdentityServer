@@ -350,11 +350,6 @@ public static class ClientExtensions
             throw new InvalidClientConfigException(clientId, "Secret is missing");
         if (secret.StartsWith("#{") && secret.EndsWith("}"))
             throw new InvalidClientConfigException(clientId, $"Invalid secret '{secret}': secret contains deployment variable placeholder");
-        //if (env.IsDevelopment() || env.IsTest())
-        //    if (secret is "dit_is_geheim" or "secret")
-        //        return;
-        //if (secret.Length < 20)
-        //throw new InvalidClientConfigException(clientId, $"Invalid secret '{secret}': secret must be at least 20 characters long.");
     }
 }
 

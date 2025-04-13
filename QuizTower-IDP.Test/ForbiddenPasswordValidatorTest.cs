@@ -49,7 +49,7 @@ namespace QuizTower.IDP.Test
             Assert.Multiple(async () =>
             {
                 // Assert
-                await AssertValidPassword(validator, user, "HvA-Hva-123!");
+                await AssertValidPassword(validator, user, "AbC-XyZ-123!");
                 await AssertValidPassword(validator, user, "AnotherValidPass1!");
             });
         }
